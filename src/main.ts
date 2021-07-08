@@ -161,7 +161,7 @@ export async function createProject(options: CLIOptions) {
       enabled: () => options.git,
     },
     {
-      title: "Creating intial files",
+      title: "Creating initial files",
       task: () => createInitialFile(options),
       enabled: () => true,
     },
@@ -169,7 +169,9 @@ export async function createProject(options: CLIOptions) {
       title: "Install dependencies",
       task: () =>
         projectInstall({
-          cwd: options.targetDirectory,
+          cwd: `${options.targetDirectory}/${clearThemeName(
+            options.templateName
+          )}`,
         }),
       skip: () =>
         !options.runInstall
