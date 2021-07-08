@@ -130,14 +130,14 @@ export function createProject(options) {
                 enabled: () => options.git,
             },
             {
-                title: "Creating intial files",
+                title: "Creating initial files",
                 task: () => createInitialFile(options),
                 enabled: () => true,
             },
             {
                 title: "Install dependencies",
                 task: () => projectInstall({
-                    cwd: options.targetDirectory,
+                    cwd: `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
                 }),
                 skip: () => !options.runInstall
                     ? "Pass --install to automatically install dependencies"
