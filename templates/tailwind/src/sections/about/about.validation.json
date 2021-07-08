@@ -1,9 +1,0 @@
-{
-    "id": 2,
-    "name": "about",
-    "data": {
-        "image": "url|file|mimes:png,jpeg,jpg",
-        "title": "string|max:30",
-        "description": "string"
-    }
-}

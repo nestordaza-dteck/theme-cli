@@ -1,17 +1,22 @@
 /**
  * @description find a page in pages object.
  */
-export function findPage(pages: WebsitePage[], pageId: number) {
+export function findPage<T extends WebsitePage[]>(pages: T, pageId: number) {
   return pages.find((page) => page.id === pageId);
 }
 
 /**
  * @description find a section of a page
  */
-export const findSection = (website: WebsiteData, sectionName: string) => {
+export function findSection<T extends WebsiteData>(
+  website: T,
+  sectionName: string
+) {
+  if (typeof website) {
+  }
   const page = website.page;
-  return page.sections?.find((s: any) => s.name.toLowerCase() === sectionName);
-};
+  return page.sections?.find((s) => s.name.toLowerCase() === sectionName);
+}
 
 /**
  * @description under development if you run yarn build:data data website
