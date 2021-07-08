@@ -143,7 +143,7 @@ export function createProject(options) {
             },
         ]);
         yield tasks.run();
-        console.log("%s Project ready", chalk.green.bold("✅"));
+        console.log(`\n\n%s\n\n%s\n\n%s\n\n%s\n\n`, chalk.green.bold("✅ Project template was created successfully."), chalk.blueBright.bold(`🔷 Go to cd /${clearThemeName(options.templateName)}`), chalk.blueBright.bold(`🔷 Run yarn start or npm run start`), chalk.blueBright.bold(`🔥 Make something beutiful.`));
         return true;
     });
 }
