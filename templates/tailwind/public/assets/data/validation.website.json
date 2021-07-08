@@ -1,0 +1,38 @@
+{
+  "general": {
+    "favicon": "url|file|mimes:ico,jpeg,png,jpg",
+    "name": "required|string",
+    "email": "email",
+    "telephone": "phone",
+    "address": "string",
+    "facebook": "url",
+    "twitter": "url",
+    "instagram": "url"
+  },
+  "nav": {
+    "data": {
+      "items": [
+        {
+          "name": "string|max:20"
+        }
+      ],
+      "button": "string|max:30"
+    }
+  },
+  "pages": [
+    {
+      "id": 1,
+      "sections": [
+        {
+          "id": 2,
+          "name": "about",
+          "data": {
+            "image": "url|file|mimes:png,jpeg,jpg",
+            "title": "string|max:30",
+            "description": "string"
+          }
+        }
+      ]
+    }
+  ]
+}

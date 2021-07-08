@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "module": "esnext",
+      "esModuleInterop": true,
+      "target": "es6",
+      "moduleResolution": "node",
+      "sourceMap": true,
+      "outDir": "core",
+      "skipLibCheck": true,
+      "noFallthroughCasesInSwitch": true,
+      "resolveJsonModule": true,
+      "allowJs": true,
+    },
+    "lib": ["es2015"],
+    "include": ["src"],
+  }
