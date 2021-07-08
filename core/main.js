@@ -68,11 +68,9 @@ function createInitialFile(options) {
             })
                 .toString()
                 .replace(/,/g, "\n"));
-            if (options.git) {
-                //.gitignore
-                yield fs.writeFileSync(path.join(`${options.targetDirectory}/${clearThemeName(options.templateName)}`, ".gitignore"), `node_modules/\nbuild/\ndist/
+            //.gitignore
+            yield fs.writeFileSync(path.join(`${options.targetDirectory}/${clearThemeName(options.templateName)}`, ".gitignore"), `node_modules/\nbuild/\ndist/
         `);
-            }
             yield setPackageInfoDefaults(options);
         }
         catch (error) {

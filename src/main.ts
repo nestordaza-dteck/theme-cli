@@ -77,17 +77,15 @@ async function createInitialFile(options: CLIOptions) {
         .replace(/,/g, "\n")
     );
 
-    if (options.git) {
-      //.gitignore
-      await fs.writeFileSync(
-        path.join(
-          `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
-          ".gitignore"
-        ),
-        `node_modules/\nbuild/\ndist/
+    //.gitignore
+    await fs.writeFileSync(
+      path.join(
+        `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
+        ".gitignore"
+      ),
+      `node_modules/\nbuild/\ndist/
         `
-      );
-    }
+    );
 
     await setPackageInfoDefaults(options);
   } catch (error) {
