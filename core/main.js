@@ -137,13 +137,11 @@ export function createProject(options) {
                 task: () => projectInstall({
                     cwd: `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
                 }),
-                skip: () => !options.runInstall
-                    ? "Pass --install to automatically install dependencies"
-                    : undefined,
+                enabled: () => true,
             },
         ]);
         yield tasks.run();
-        console.log(`\n\n%s\n\n%s\n\n%s\n\n%s\n\n`, chalk.green.bold("✅ Project template was created successfully."), chalk.blueBright.bold(`🔷 Go to cd /${clearThemeName(options.templateName)}`), chalk.blueBright.bold(`🔷 Run yarn start or npm run start`), chalk.blueBright.bold(`🔥 Make something beutiful.`));
+        console.log(`\n\n%s\n\n%s\n\n%s\n\n%s\n\n%s\n\n`, chalk.green.bold("✅ Project template was created successfully."), `🔷 Run ${chalk.blueBright.bold(`cd /${clearThemeName(options.templateName)}`)} to enter your project directory`, `🔷 Run ${chalk.blueBright.bold("yarn start")} or ${chalk.blueBright.bold("npm run start")} to start the development server.`, `🔷 Run ${chalk.blueBright.bold("yarn build")} or ${chalk.blueBright.bold("npm run build")} to build a production version of your project.`, chalk.blueBright.bold(`🔥 Make something beutiful.`));
         return true;
     });
 }

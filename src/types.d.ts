@@ -14,7 +14,6 @@ declare interface CLIOptions {
    * @description install dependencies flag
    */
   templateName: string;
-  runInstall: boolean;
   templateDirectory?: string;
   targetDirectory?: string;
 }

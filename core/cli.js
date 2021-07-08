@@ -17,10 +17,8 @@ function parseArgumentsIntoOptions(rawArgs) {
     const args = arg({
         "--git": Boolean,
         "--yes": Boolean,
-        "--install": Boolean,
         "-g": "--git",
         "-y": "--yes",
-        "-i": "--install",
     }, {
         argv: rawArgs.slice(2),
     });
@@ -29,7 +27,6 @@ function parseArgumentsIntoOptions(rawArgs) {
         git: args["--git"] || false,
         template: args._[0],
         templateName: (args._[1] || folderName),
-        runInstall: args["--install"] || false,
     };
 }
 function promptForMissingOptions(options) {
