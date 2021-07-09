@@ -11,10 +11,13 @@ export function setEnvironmentVariables(options: ScriptsOptions) {
   process.env.PORT = options.port || "8080";
 }
 
-export async function build(options: ScriptsOptions) {
+export async function getDataFiles() {
+  console.log(`${process.env.APP_DIRECTORY}`);
+}
+
+export async function runScripts(options: ScriptsOptions) {
   //frontend webpack configuration
   const browserConfigPath = path.join(__dirname, "webpack.browser.js");
-
   //node_modules from the cli to execute.
   const webpackCliPath = path.join(
     __dirname,
@@ -45,7 +48,7 @@ export async function run(options: ScriptsOptions) {
             )
           : chalk.blueBright.bold("Building production."),
       task: () =>
-        build(options)
+        runScripts(options)
           .then((res) => {
             // console.log(res);
           })
