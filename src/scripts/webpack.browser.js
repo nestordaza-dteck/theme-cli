@@ -12,6 +12,7 @@ const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
 const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
 const env = getClientEnvironment("/");
 
+
 /**
  * @description Browser webpack configuration compiles frontend end side.
  */
@@ -37,6 +38,9 @@ const browser = {
     },
   },
   plugins: [
+    /**
+     * add custom variables from .env file inside running project.
+     */
     new webpack.DefinePlugin(env.stringified),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
@@ -45,7 +49,7 @@ const browser = {
     new HtmlWebpackPlugin({
       title: "Soltivo Theme",
       template: path.join(process.env.APP_DIRECTORY, "/public/index.ejs"),
-      publicPath: process.env.PUBLIC_URL,
+      publicPath: process.env.PUBLIC_URL || env.raw.PUBLIC_URL,
     }),
     new InsertData(),
     new CopyPlugin({
