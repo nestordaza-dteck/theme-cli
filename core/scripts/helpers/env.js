@@ -88,4 +88,3 @@ function getClientEnvironment(publicUrl) {
     return { raw, stringified };
 }
 module.exports = getClientEnvironment;
-//# sourceMappingURL=env.js.map

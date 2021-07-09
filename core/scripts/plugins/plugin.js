@@ -39,5 +39,3 @@ class InsertData {
     }
 }
 module.exports = InsertData;
-export {};
-//# sourceMappingURL=plugin.js.map

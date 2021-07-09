@@ -30,4 +30,3 @@ export function cli(args) {
         yield run(options);
     });
 }
-//# sourceMappingURL=index.js.map

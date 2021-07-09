@@ -66,4 +66,3 @@ const server = {
     },
 };
 module.exports = server;
-//# sourceMappingURL=webpack.server.js.map

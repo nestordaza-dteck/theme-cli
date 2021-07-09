@@ -53,19 +53,14 @@ function setPackageInfoDefaults(options) {
 function createInitialFile(options) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const defaultEnv = [
-                {
-                    THEME_ID: v4(),
-                    THEME_NAME: options.templateName,
-                    THEME_GOOGLE_API_KEY: "AIzaSyBb01Bhrc3WVArxaA9H5_X1d5cUINSRZUE",
-                    THEME_BOOKING_APP_URL: "https://booking.mysoltivo.dev",
-                },
-            ];
-            //.env
+            const defaultEnv = {
+                THEME_ID: v4(),
+                THEME_NAME: options.templateName,
+                THEME_GOOGLE_API_KEY: "AIzaSyBb01Bhrc3WVArxaA9H5_X1d5cUINSRZUE",
+                THEME_BOOKING_APP_URL: "https://booking.mysoltivo.dev",
+            };
             yield fs.writeFileSync(path.join(`${options.targetDirectory}/${clearThemeName(options.templateName)}`, ".env"), Object.keys(defaultEnv)
-                .map((key) => {
-                `${key}=${defaultEnv[key]}`;
-            })
+                .map((key) => `${key}=${defaultEnv[key]}`)
                 .toString()
                 .replace(/,/g, "\n"));
             //.gitignore
@@ -141,8 +136,7 @@ export function createProject(options) {
             },
         ]);
         yield tasks.run();
-        console.log(`\n\n%s\n\n%s\n\n%s\n\n%s\n\n%s\n\n`, chalk.green.bold("✅ Project template was created successfully."), `🔷 Run ${chalk.blueBright.bold(`cd /${clearThemeName(options.templateName)}`)} to enter your project directory`, `🔷 Run ${chalk.blueBright.bold("yarn start")} or ${chalk.blueBright.bold("npm run start")} to start the development server.`, `🔷 Run ${chalk.blueBright.bold("yarn build")} or ${chalk.blueBright.bold("npm run build")} to build a production version of your project.`, chalk.blueBright.bold(`🔥 Make something beutiful.`));
+        console.log(`\n\n%s\n\n%s\n\n%s\n\n%s\n\n%s\n\n`, chalk.green.bold("✅ Project template was created successfully."), `🔷 Run ${chalk.blueBright.bold(`cd ${clearThemeName(options.templateName)}`)} to enter your project directory`, `🔷 Run ${chalk.blueBright.bold("yarn start")} or ${chalk.blueBright.bold("npm run start")} to start the development server.`, `🔷 Run ${chalk.blueBright.bold("yarn build")} or ${chalk.blueBright.bold("npm run build")} to build a production version of your project.`, chalk.blueBright.bold(`🔥 Make something beutiful.`));
         return true;
     });
 }
-//# sourceMappingURL=main.js.map

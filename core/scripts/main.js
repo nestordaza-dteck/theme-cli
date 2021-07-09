@@ -18,7 +18,12 @@ export function setEnvironmentVariables(options) {
     process.env.APP_DIRECTORY = fs.realpathSync(process.cwd());
     process.env.PORT = options.port || "8080";
 }
-export function build(options) {
+export function getDataFiles() {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log(`${process.env.APP_DIRECTORY}`);
+    });
+}
+export function runScripts(options) {
     return __awaiter(this, void 0, void 0, function* () {
         //frontend webpack configuration
         const browserConfigPath = path.join(__dirname, "webpack.browser.js");
@@ -42,7 +47,7 @@ export function run(options) {
                 title: options.env === "development"
                     ? chalk.blueBright.bold(`Running in development mode at http://localhost:${process.env.PORT}.`)
                     : chalk.blueBright.bold("Building production."),
-                task: () => build(options)
+                task: () => runScripts(options)
                     .then((res) => {
                     // console.log(res);
                 })
@@ -57,4 +62,3 @@ export function run(options) {
         return true;
     });
 }
-//# sourceMappingURL=main.js.map

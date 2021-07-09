@@ -68,4 +68,3 @@ export function cli(args) {
         yield createProject(options);
     });
 }
-//# sourceMappingURL=cli.js.map

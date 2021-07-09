@@ -22,4 +22,3 @@ module.exports = {
     dotenv: resolveApp(path.join(process.env.APP_DIRECTORY, '.env')),
 };
 module.exports.moduleFileExtensions = moduleFileExtensions;
-//# sourceMappingURL=paths.js.map
