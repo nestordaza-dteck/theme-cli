@@ -54,25 +54,20 @@ async function setPackageInfoDefaults(options: CLIOptions) {
  */
 async function createInitialFile(options: CLIOptions) {
   try {
-    const defaultEnv = [
-      {
-        THEME_ID: v4(),
-        THEME_NAME: options.templateName,
-        THEME_GOOGLE_API_KEY: "AIzaSyBb01Bhrc3WVArxaA9H5_X1d5cUINSRZUE",
-        THEME_BOOKING_APP_URL: "https://booking.mysoltivo.dev",
-      },
-    ];
+    const defaultEnv = {
+      THEME_ID: v4(),
+      THEME_NAME: options.templateName,
+      THEME_GOOGLE_API_KEY: "AIzaSyBb01Bhrc3WVArxaA9H5_X1d5cUINSRZUE",
+      THEME_BOOKING_APP_URL: "https://booking.mysoltivo.dev",
+    };
 
-    //.env
     await fs.writeFileSync(
       path.join(
         `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
         ".env"
       ),
       Object.keys(defaultEnv)
-        .map((key) => {
-          `${key}=${defaultEnv[key]}`;
-        })
+        .map((key) => `${key}=${defaultEnv[key]}`)
         .toString()
         .replace(/,/g, "\n")
     );
@@ -181,7 +176,7 @@ export async function createProject(options: CLIOptions) {
     `\n\n%s\n\n%s\n\n%s\n\n%s\n\n%s\n\n`,
     chalk.green.bold("✅ Project template was created successfully."),
     `🔷 Run ${chalk.blueBright.bold(
-      `cd /${clearThemeName(options.templateName)}`
+      `cd ${clearThemeName(options.templateName)}`
     )} to enter your project directory`,
     `🔷 Run ${chalk.blueBright.bold("yarn start")} or ${chalk.blueBright.bold(
       "npm run start"
