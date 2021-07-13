@@ -1,5 +1,3 @@
-import { WebsiteData } from "../types";
-
 export const _CONFIG = {
   bookingUrl: (website: WebsiteData) =>
     `${
