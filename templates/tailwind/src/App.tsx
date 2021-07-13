@@ -3,7 +3,7 @@ import { WebsiteContext } from "./data/website.context";
 import useBuilder from "./helpers/hooks/useBuilder";
 
 const App = ({ global }: { global: WebsiteData }) => {
-  const { website }: { website: WebsiteData } = useBuilder({
+  const { website } = useBuilder({
     website: global,
     brain: "display",
     routePath: "/",
