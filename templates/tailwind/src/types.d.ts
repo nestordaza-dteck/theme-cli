@@ -74,12 +74,17 @@ interface WebsiteConfig {
 declare interface GlobalDataFields {
   website: Required<Omit<WebsiteData, "page">>;
   validation: Required<Omit<Validation, "pages">>;
-  configuration: Required<> & Partial<>;
+  configuration: WebsiteConfig;
 }
 
 declare interface PageDataFields {
   data: Required<Omit<WebsitePage, "sections" | "hidden">> &
-    Partial<Pick<WebsitePage, "hidden">>;
+    Partial<Pick<WebsitePage, "hidden">> & {
+      /**
+       * @description list of sections by name.
+       */
+      withSections: string[];
+    };
 }
 
 /**
@@ -125,7 +130,11 @@ declare interface WebsiteSection {
    */
   id: number;
   /**
-   * @description name of the section
+   * @description name of the section.
+   * @important all sections name should not have uppercase or space between words or number
+   * and it needs to be unique.
+   * @example ✅ "about_me | about-me | aboutme"
+   * @example ❌ "aboutMe | "about me | ABOUT-ME | aboutme3"
    */
   name: string;
   /**
@@ -137,7 +146,8 @@ declare interface WebsiteSection {
    */
   selected: boolean;
   /**
-   * @description section data is all the modifiable data a section can contain, like text, images, videos and so on.
+   * @description section data is all the modifiable data a section can contain, like text, images,
+   * videos and so on.
    */
   data: { [index: string]: any };
 }
@@ -152,6 +162,10 @@ declare interface WebsitePage {
   id: number;
   /**
    * @description name of the page displayed in the builder
+   * @important page name should not have uppercase or space between words or number
+   * and it needs to be unique.
+   * @example ✅ "home-page | home_page | homepage"
+   * @example ❌ "homePage | home page | HOME-PAGE | homepage3"
    */
   name: string;
   /**
@@ -384,7 +398,7 @@ declare interface Validation {
   pages: Array<{
     id: number;
     sections: Array<{
-      id: string;
+      id: number;
       name: string;
       data: any;
     }>;
