@@ -1,16 +1,19 @@
 {
     "compilerOptions": {
-      "module": "esnext",
+      "module": "CommonJS",
       "esModuleInterop": true,
-      "target": "es6",
+      "target": "es5",
       "moduleResolution": "node",
       "sourceMap": false,
       "outDir": "core",
       "skipLibCheck": true,
       "noFallthroughCasesInSwitch": true,
+      "allowSyntheticDefaultImports": true,
       "resolveJsonModule": true,
       "allowJs": true,
+      "noEmit": false,
+      "lib": ["ESNext","DOM"]
     },
-    "lib": ["es2015"],
     "include": ["src"],
+    "exclude": ["src/scripts/layers"]
   }
