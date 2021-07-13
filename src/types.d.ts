@@ -33,6 +33,10 @@ declare namespace NodeJS {
        */
       APP_DIRECTORY: string;
       /**
+       * @description data inside public folder absolute path.
+       */
+      APP_PUBLIC_DATA: string;
+      /**
        * @description port where the app is running in development server.
        */
       PORT: ScriptsOptions["port"];
@@ -40,3 +44,34 @@ declare namespace NodeJS {
     };
   }
 }
+
+declare type SectionModules = (import("webpack").StatsAsset & {
+  default: () => Promise<SectionDataFields>;
+})[];
+
+declare type PageModules = (import("webpack").StatsAsset & {
+  default: () => Promise<
+    PageDataFields & {
+      data: {
+        /**
+         * @description it becomes available while creating pages & removing withSections attribute.
+         */
+        sections?: WebsiteSection[];
+      };
+    }
+  >;
+})[];
+
+declare type GlobalModules = (import("webpack").StatsAsset & {
+  default: () => Promise<
+    GlobalDataFields & {
+      website: {
+        /**
+         * @description default page (home) is defined when creating global.website.json &
+         * config.website.json & validation.website.json at createGlobalData helper.
+         */
+        page?: WebsitePage;
+      };
+    }
+  >;
+})[];
