@@ -5,7 +5,7 @@ import global from "../../public/assets/data/global.website.json";
  * @description create global context to be used in the app.
  */
 export const WebsiteContext = createContext<{
-  website: ReturnType<() => typeof global> & WebsiteData;
+  website: WebsiteData;
 }>({
   website: global,
 });
