@@ -1,7 +1,7 @@
 import path from "path";
 import webpack from "webpack";
 import fs from "fs";
-import { Example } from "./plugins/example";
+import { RetriveThemeData } from "./plugins/retriveThemeData";
 import { globalLayer } from "./layers/global";
 import { getPageEntries, getSectionEntries } from "./helpers/getEntries";
 const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
@@ -55,7 +55,6 @@ const config = async (): Promise<webpack.Configuration> => {
         ...pageEntries,
         _global: path.join(globalEntry, "global.data"),
       },
-      bail: true,
       output: {
         filename: "[name].[fullhash].js",
         path: path.resolve(BUILD_OUT, "browser"),
@@ -79,7 +78,7 @@ const config = async (): Promise<webpack.Configuration> => {
         modules: [path.join(__dirname, "../../node_modules")],
         extensions: [".ts"],
       },
-      plugins: [new Example()],
+      plugins: [new RetriveThemeData()],
       module: {
         rules: [
           // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
