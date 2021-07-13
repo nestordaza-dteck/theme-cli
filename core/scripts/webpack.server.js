@@ -1,14 +1,14 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
-const path = require("path");
-const APP_SOURCE = path.join(__dirname, "src");
-const BUILD_OUT = path.join(__dirname, "dist");
+var CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
+var CopyPlugin = require("copy-webpack-plugin");
+var TerserPlugin = require("terser-webpack-plugin");
+var Dotenv = require("dotenv-webpack");
+var path = require("path");
+var APP_SOURCE = path.join(__dirname, "src");
+var BUILD_OUT = path.join(__dirname, "dist");
 /**
  * @description Server webpack configuration compiles backend end side.
  */
-const server = {
+var server = {
     name: "server",
     mode: "development",
     entry: { index: path.join(APP_SOURCE, "server") },
@@ -32,8 +32,8 @@ const server = {
         new CleanWebpackPlugin(),
         new CopyPlugin({
             patterns: [
-                { from: `${__dirname}/public/assets/data/pages.website.json`, to: `${BUILD_OUT}/server/` },
-                { from: `${__dirname}/public/assets/data/global.website.json`, to: `${BUILD_OUT}/server/` },
+                { from: __dirname + "/public/assets/data/pages.website.json", to: BUILD_OUT + "/server/" },
+                { from: __dirname + "/public/assets/data/global.website.json", to: BUILD_OUT + "/server/" },
             ],
         }),
     ],

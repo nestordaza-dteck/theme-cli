@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import execa from "execa";
 import path from "path";
+// @ts-ignore
 import Listr from "listr";
 import fs from "fs";
 
@@ -8,16 +9,16 @@ import fs from "fs";
 export function setEnvironmentVariables(options: ScriptsOptions) {
   process.env.NODE_ENV = options.env;
   process.env.APP_DIRECTORY = fs.realpathSync(process.cwd());
+  process.env.APP_PUBLIC_DATA = path.join(
+    process.env.APP_DIRECTORY,
+    "public/assets/data"
+  );
   process.env.PORT = options.port || "8080";
 }
 
-export async function getDataFiles() {
-  console.log(`${process.env.APP_DIRECTORY}`);
-}
-
-export async function runScripts(options: ScriptsOptions) {
+export async function getDataFiles(options: ScriptsOptions) {
   //frontend webpack configuration
-  const browserConfigPath = path.join(__dirname, "webpack.browser.js");
+  const dataConfigPath = path.join(__dirname, "webpack.data.js");
   //node_modules from the cli to execute.
   const webpackCliPath = path.join(
     __dirname,
@@ -25,14 +26,34 @@ export async function runScripts(options: ScriptsOptions) {
   );
 
   //command args to run based on environment.
-  const runArgs =
-    options.env === "development"
-      ? ["serve", "--config", browserConfigPath, "--hot", "--open"]
-      : ["--config", browserConfigPath, "--mode", options.env];
+  const runArgs = ["--config", dataConfigPath];
 
   return await execa(`${webpackCliPath}`, runArgs, {
     cwd: process.cwd(),
   });
+
+  // await createGlobal(options);
+}
+
+export async function runScripts(options: ScriptsOptions) {
+  return await getDataFiles(options);
+  // //frontend webpack configuration
+  // const browserConfigPath = path.join(__dirname, "webpack.browser.js");
+  // //node_modules from the cli to execute.
+  // const webpackCliPath = path.join(
+  //   __dirname,
+  //   "../../node_modules/.bin/webpack"
+  // );
+
+  // //command args to run based on environment.
+  // const runArgs =
+  //   options.env === "development"
+  //     ? ["serve", "--config", browserConfigPath, "--hot", "--open"]
+  //     : ["--config", browserConfigPath, "--mode", options.env];
+
+  // return await execa(`${webpackCliPath}`, runArgs, {
+  //   cwd: process.cwd(),
+  // });
 }
 
 export async function run(options: ScriptsOptions) {
@@ -50,7 +71,7 @@ export async function run(options: ScriptsOptions) {
       task: () =>
         runScripts(options)
           .then((res) => {
-            // console.log(res);
+            console.log(res);
           })
           .catch((error) => {
             console.error(`%s ${error}`, chalk.red.bold("❌"));

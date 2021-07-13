@@ -1,41 +1,44 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const jsdom = require("jsdom");
+var path = require("path");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var jsdom = require("jsdom");
 // const getClientEnvironment = require("./env");
-class InsertData {
-    apply(compiler) {
+var InsertData = /** @class */ (function () {
+    function InsertData() {
+    }
+    InsertData.prototype.apply = function (compiler) {
         // If your plugin is direct dependent to the html webpack plugin:
-        const { JSDOM } = jsdom;
+        var JSDOM = jsdom.JSDOM;
         /**
          * @todo we could improve the html using env from either node js and also the one set in the
          * theme through .env file.
          */
         // const env = getClientEnvironment("/");
         //Get global.data.website.json inside public folder of the theme.
-        const globalData = require(path.join(process.env.APP_DIRECTORY, "public", "assets", "data", "global.website.json"));
-        compiler.hooks.compilation.tap("InsertData", (compilation) => {
+        var globalData = require(path.join(process.env.APP_DIRECTORY, "public", "assets", "data", "global.website.json"));
+        compiler.hooks.compilation.tap("InsertData", function (compilation) {
             // Static Plugin interface |compilation | HOOK NAME | register listener
             HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync("InsertData", // <-- Set a meaningful name here for stacktraces
-            (data, cb) => {
+            function (data, cb) {
                 // Manipulate the content
-                const HTML = new JSDOM(data.html);
-                const globalColors = Object.keys(globalData.colors)
-                    .map((name) => {
-                    return `\n--${name}: ${globalData.colors[name]};\n`;
+                var HTML = new JSDOM(data.html);
+                var globalColors = Object.keys(globalData.colors)
+                    .map(function (name) {
+                    return "\n--" + name + ": " + globalData.colors[name] + ";\n";
                 })
                     .toString()
                     .replace(/(,)/g, "");
-                const colorsEl = HTML.window.document.getElementById("SOLTIVO_THEME_COLORS");
-                const fontsEl = HTML.window.document.getElementById("FONT_THEME_LINK");
-                const fontSyleEl = HTML.window.document.getElementById("FONT_THEME_STYLE");
-                colorsEl.innerHTML = `:root {${globalColors}}`;
+                var colorsEl = HTML.window.document.getElementById("SOLTIVO_THEME_COLORS");
+                var fontsEl = HTML.window.document.getElementById("FONT_THEME_LINK");
+                var fontSyleEl = HTML.window.document.getElementById("FONT_THEME_STYLE");
+                colorsEl.innerHTML = ":root {" + globalColors + "}";
                 fontsEl.setAttribute("href", globalData.font.href);
-                fontSyleEl.innerHTML = `*{${globalData.font.cssRule}}`;
+                fontSyleEl.innerHTML = "*{" + globalData.font.cssRule + "}";
                 data.html = HTML.serialize();
                 // Tell webpack to move on
                 cb(null, data);
             });
         });
-    }
-}
+    };
+    return InsertData;
+}());
 module.exports = InsertData;

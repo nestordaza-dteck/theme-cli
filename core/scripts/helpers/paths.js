@@ -1,11 +1,11 @@
 'use strict';
-const path = require('path');
-const fs = require('fs');
+var path = require('path');
+var fs = require('fs');
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebook/create-react-app/issues/637
-const appDirectory = fs.realpathSync(process.cwd());
-const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
-const moduleFileExtensions = [
+var appDirectory = fs.realpathSync(process.cwd());
+var resolveApp = function (relativePath) { return path.resolve(appDirectory, relativePath); };
+var moduleFileExtensions = [
     'web.mjs',
     'mjs',
     'web.js',

@@ -35,41 +35,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cli = void 0;
-var arg_1 = __importDefault(require("arg"));
-var main_1 = require("./main");
-function parseArgumentsIntoOptions(rawArgs) {
-    var args = arg_1.default({
-        "--port": String,
-    }, {
-        argv: rawArgs.slice(2),
-    });
-    var envChoices = ["start", "build"];
-    if (!envChoices.includes(args._[0])) {
-        throw new Error("environment mismatch, set either start or build.");
-    }
-    return {
-        port: args["--port"] || "8080",
-        env: args._[0] === "build" ? "production" : "development",
-    };
-}
-function cli(args) {
+exports.createGlobal = void 0;
+var fs = require("fs");
+var path = require("path");
+function createGlobal(options) {
     return __awaiter(this, void 0, void 0, function () {
-        var options;
+        var x;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    options = parseArgumentsIntoOptions(args);
-                    return [4 /*yield*/, main_1.run(options)];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
+            x = require(path.join("" + process.env.APP_DIRECTORY, "src", "data", "global.x.js"));
+            return [2 /*return*/];
         });
     });
 }
-exports.cli = cli;
+exports.createGlobal = createGlobal;

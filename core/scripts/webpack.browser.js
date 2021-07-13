@@ -1,19 +1,19 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const path = require("path");
-const InsertData = require("./plugins/plugin");
-const webpack = require("webpack");
-const getClientEnvironment = require("./helpers/env");
-const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
-const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
-const env = getClientEnvironment("/");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
+var CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
+var CopyPlugin = require("copy-webpack-plugin");
+var TerserPlugin = require("terser-webpack-plugin");
+var path = require("path");
+var InsertData = require("./plugins/plugin");
+var webpack = require("webpack");
+var getClientEnvironment = require("./helpers/env");
+var APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
+var BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
+var env = getClientEnvironment("/");
 /**
  * @description Browser webpack configuration compiles frontend end side.
  */
-const browser = {
+var browser = {
     name: "browser",
     mode: "development",
     entry: path.join(APP_SOURCE, "index.tsx"),

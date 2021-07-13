@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,37 +50,54 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cli = void 0;
-var arg_1 = __importDefault(require("arg"));
-var main_1 = require("./main");
-function parseArgumentsIntoOptions(rawArgs) {
-    var args = arg_1.default({
-        "--port": String,
-    }, {
-        argv: rawArgs.slice(2),
-    });
-    var envChoices = ["start", "build"];
-    if (!envChoices.includes(args._[0])) {
-        throw new Error("environment mismatch, set either start or build.");
-    }
-    return {
-        port: args["--port"] || "8080",
-        env: args._[0] === "build" ? "production" : "development",
-    };
-}
-function cli(args) {
+exports.getThemeSections = void 0;
+var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
+/**
+ * @description get theme sections and its validations.
+ */
+function getThemeSections(_a) {
+    var assets = _a.assets, outputPath = _a.outputPath;
     return __awaiter(this, void 0, void 0, function () {
-        var options;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var modules, sectionModules, all, validation, i, result;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    options = parseArgumentsIntoOptions(args);
-                    return [4 /*yield*/, main_1.run(options)];
+                    modules = assets.map(function (asset) {
+                        return __assign({ default: require(path_1.default.resolve(outputPath, asset.name)).default }, asset);
+                    });
+                    sectionModules = modules.filter(function (m) { return m.name.startsWith("_section"); });
+                    all = [];
+                    validation = [];
+                    i = 0;
+                    _b.label = 1;
                 case 1:
-                    _a.sent();
-                    return [2 /*return*/];
+                    if (!(i < sectionModules.length)) return [3 /*break*/, 6];
+                    if (!(typeof sectionModules[i].default === "function")) return [3 /*break*/, 4];
+                    return [4 /*yield*/, sectionModules[i].default()];
+                case 2:
+                    result = _b.sent();
+                    //added section to array.
+                    all.push(result.data);
+                    //added section validation to array.
+                    validation.push({
+                        id: result.data.id,
+                        name: result.data.name,
+                        data: result.validation,
+                    });
+                    //delete js module.
+                    return [4 /*yield*/, fs_1.default.unlinkSync(path_1.default.resolve(outputPath, sectionModules[i].name))];
+                case 3:
+                    //delete js module.
+                    _b.sent();
+                    return [3 /*break*/, 5];
+                case 4: return [2 /*return*/, Promise.reject("Data files should be an function.")];
+                case 5:
+                    i++;
+                    return [3 /*break*/, 1];
+                case 6: return [2 /*return*/, { all: all, validation: validation }];
             }
         });
     });
 }
-exports.cli = cli;
+exports.getThemeSections = getThemeSections;

@@ -1,21 +1,21 @@
 'use strict';
-const fs = require('fs');
-const path = require('path');
-const paths = require('./paths');
+var fs = require('fs');
+var path = require('path');
+var paths = require('./paths');
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
-const NODE_ENV = process.env.NODE_ENV;
+var NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
     throw new Error('The NODE_ENV environment variable is required but was not specified.');
 }
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
-const dotenvFiles = [
-    `${paths.dotenv}.${NODE_ENV}.local`,
+var dotenvFiles = [
+    paths.dotenv + "." + NODE_ENV + ".local",
     // Don't include `.env.local` for `test` environment
     // since normally you expect tests to produce the same
     // results for everyone
-    NODE_ENV !== 'test' && `${paths.dotenv}.local`,
-    `${paths.dotenv}.${NODE_ENV}`,
+    NODE_ENV !== 'test' && paths.dotenv + ".local",
+    paths.dotenv + "." + NODE_ENV,
     paths.dotenv,
 ].filter(Boolean);
 // Load environment variables from .env* files. Suppress warnings using silent
@@ -23,7 +23,7 @@ const dotenvFiles = [
 // that have already been set.  Variable expansion is supported in .env files.
 // https://github.com/motdotla/dotenv
 // https://github.com/motdotla/dotenv-expand
-dotenvFiles.forEach(dotenvFile => {
+dotenvFiles.forEach(function (dotenvFile) {
     if (fs.existsSync(dotenvFile)) {
         require('dotenv-expand')(require('dotenv').config({
             path: dotenvFile,
@@ -39,19 +39,19 @@ dotenvFiles.forEach(dotenvFile => {
 // Otherwise, we risk importing Node.js core modules into an app instead of webpack shims.
 // https://github.com/facebook/create-react-app/issues/1023#issuecomment-265344421
 // We also resolve them to make sure all tools using them work consistently.
-const appDirectory = fs.realpathSync(process.cwd());
+var appDirectory = fs.realpathSync(process.cwd());
 process.env.NODE_PATH = (process.env.NODE_PATH || '')
     .split(path.delimiter)
-    .filter(folder => folder && !path.isAbsolute(folder))
-    .map(folder => path.resolve(appDirectory, folder))
+    .filter(function (folder) { return folder && !path.isAbsolute(folder); })
+    .map(function (folder) { return path.resolve(appDirectory, folder); })
     .join(path.delimiter);
 // Grab NODE_ENV and THEME_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in webpack configuration.
-const THEME_ = /^THEME_/i;
+var THEME_ = /^THEME_/i;
 function getClientEnvironment(publicUrl) {
-    const raw = Object.keys(process.env)
-        .filter(key => THEME_.test(key))
-        .reduce((env, key) => {
+    var raw = Object.keys(process.env)
+        .filter(function (key) { return THEME_.test(key); })
+        .reduce(function (env, key) {
         env[key] = process.env[key];
         return env;
     }, {
@@ -79,12 +79,12 @@ function getClientEnvironment(publicUrl) {
         PORT: process.env.PORT || "8080"
     });
     // Stringify all values so we can feed into webpack DefinePlugin
-    const stringified = {
-        'process.env': Object.keys(raw).reduce((env, key) => {
+    var stringified = {
+        'process.env': Object.keys(raw).reduce(function (env, key) {
             env[key] = JSON.stringify(raw[key]);
             return env;
         }, {}),
     };
-    return { raw, stringified };
+    return { raw: raw, stringified: stringified };
 }
 module.exports = getClientEnvironment;

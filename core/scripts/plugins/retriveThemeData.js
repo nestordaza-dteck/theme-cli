@@ -35,41 +35,50 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cli = void 0;
-var arg_1 = __importDefault(require("arg"));
-var main_1 = require("./main");
-function parseArgumentsIntoOptions(rawArgs) {
-    var args = arg_1.default({
-        "--port": String,
-    }, {
-        argv: rawArgs.slice(2),
-    });
-    var envChoices = ["start", "build"];
-    if (!envChoices.includes(args._[0])) {
-        throw new Error("environment mismatch, set either start or build.");
+exports.RetriveThemeData = void 0;
+var createPagesData_1 = require("../helpers/createPagesData");
+var getThemeSections_1 = require("../helpers/getThemeSections");
+var createGlobalData_1 = require("../helpers/createGlobalData");
+/**
+ * @description it gets the data from sections, pages and global and creates the json data
+ * inside theme's public folder project.
+ */
+var RetriveThemeData = /** @class */ (function () {
+    function RetriveThemeData() {
     }
-    return {
-        port: args["--port"] || "8080",
-        env: args._[0] === "build" ? "production" : "development",
+    RetriveThemeData.prototype.apply = function (compiler) {
+        var _this = this;
+        compiler.hooks.done.tapAsync("Example", function (stats) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, outputPath, assets, sections, pages;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = stats.toJson(), outputPath = _a.outputPath, assets = _a.assets;
+                        return [4 /*yield*/, getThemeSections_1.getThemeSections({ assets: assets, outputPath: outputPath })];
+                    case 1:
+                        sections = _b.sent();
+                        return [4 /*yield*/, createPagesData_1.createPagesData({
+                                assets: assets,
+                                outputPath: outputPath,
+                                sections: sections,
+                            })];
+                    case 2:
+                        pages = _b.sent();
+                        // create validation, config, and global json files.
+                        return [4 /*yield*/, createGlobalData_1.createGlobalData({
+                                assets: assets,
+                                outputPath: outputPath,
+                                pages: pages,
+                            })];
+                    case 3:
+                        // create validation, config, and global json files.
+                        _b.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); });
     };
-}
-function cli(args) {
-    return __awaiter(this, void 0, void 0, function () {
-        var options;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    options = parseArgumentsIntoOptions(args);
-                    return [4 /*yield*/, main_1.run(options)];
-                case 1:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-exports.cli = cli;
+    return RetriveThemeData;
+}());
+exports.RetriveThemeData = RetriveThemeData;
