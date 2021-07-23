@@ -21,6 +21,7 @@ declare interface CLIOptions {
 declare interface ScriptsOptions {
   env: "development" | "production";
   port: string;
+  data: boolean;
 }
 
 declare namespace NodeJS {
