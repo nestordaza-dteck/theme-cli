@@ -57,4 +57,4 @@ class InsertData {
   }
 }
 
-module.exports = InsertData;
+export default InsertData;
