@@ -5,7 +5,7 @@ import { RetriveThemeData } from "./plugins/retriveThemeData";
 import { globalLayer } from "./layers/global";
 import { getPageEntries, getSectionEntries } from "./helpers/getEntries";
 const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
-const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
+const BUILD_OUT = path.join(__dirname, "/__dir");
 
 /**
  * @description Data webpack configuration compiles theme data json.
@@ -50,6 +50,12 @@ const config = async (): Promise<webpack.Configuration> => {
     resolve({
       name: "data",
       mode: process.env.NODE_ENV,
+      watch: true,
+      watchOptions: {
+        ignored: /node_modules/,
+        followSymlinks: true,
+        poll: true,
+      },
       entry: {
         ...sectionEntries,
         ...pageEntries,
@@ -57,13 +63,14 @@ const config = async (): Promise<webpack.Configuration> => {
       },
       output: {
         filename: "[name].[fullhash].js",
-        path: path.resolve(BUILD_OUT, "browser"),
+        path: path.resolve(BUILD_OUT),
         clean: true,
         library: {
           // name: "themeData",
           type: "commonjs",
         },
       },
+      stats: "errors-warnings",
       optimization: {
         minimize: true,
       },
@@ -95,4 +102,4 @@ const config = async (): Promise<webpack.Configuration> => {
   });
 };
 
-module.exports = config;
+export default config;
