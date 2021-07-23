@@ -16,6 +16,9 @@ export function setEnvironmentVariables(options: ScriptsOptions) {
   process.env.PORT = options.port || "8080";
 }
 
+/**
+ * @description run webpack configuration to build data to public folder.
+ */
 export async function getDataFiles(options: ScriptsOptions) {
   //frontend webpack configuration
   const dataConfigPath = path.join(__dirname, "webpack.data.js");
@@ -36,24 +39,32 @@ export async function getDataFiles(options: ScriptsOptions) {
 }
 
 export async function runScripts(options: ScriptsOptions) {
-  return await getDataFiles(options);
-  // //frontend webpack configuration
-  // const browserConfigPath = path.join(__dirname, "webpack.browser.js");
-  // //node_modules from the cli to execute.
-  // const webpackCliPath = path.join(
-  //   __dirname,
-  //   "../../node_modules/.bin/webpack"
-  // );
+  //run scripts for data.
+  if (options.data) {
+    return await getDataFiles(options);
+  }
 
-  // //command args to run based on environment.
-  // const runArgs =
-  //   options.env === "development"
-  //     ? ["serve", "--config", browserConfigPath, "--hot", "--open"]
-  //     : ["--config", browserConfigPath, "--mode", options.env];
+  //frontend webpack configuration
+  const browserConfigPath = path.join(__dirname, "webpack.browser.js");
 
-  // return await execa(`${webpackCliPath}`, runArgs, {
-  //   cwd: process.cwd(),
-  // });
+  //frontend & backend configurations
+  const serverConfigPath = path.join(__dirname, "webpack.server.js");
+
+  //node_modules from the cli to execute.
+  const webpackCliPath = path.join(
+    __dirname,
+    "../../node_modules/.bin/webpack"
+  );
+
+  //command args to run based on environment.
+  const runArgs =
+    options.env === "development"
+      ? ["serve", "--config", browserConfigPath, "--hot", "--open"]
+      : ["--config", serverConfigPath, "--mode", options.env];
+
+  return await execa(`${webpackCliPath}`, runArgs, {
+    cwd: process.cwd(),
+  });
 }
 
 export async function run(options: ScriptsOptions) {
@@ -62,16 +73,17 @@ export async function run(options: ScriptsOptions) {
 
   const tasks = new Listr([
     {
-      title:
-        options.env === "development"
-          ? chalk.blueBright.bold(
-              `Running in development mode at http://localhost:${process.env.PORT}.`
-            )
-          : chalk.blueBright.bold("Building production."),
+      title: options.data
+        ? "Watching data changes..."
+        : options.env === "development"
+        ? chalk.blueBright.bold(
+            `Running in development mode at http://localhost:${process.env.PORT}.`
+          )
+        : chalk.blueBright.bold("Building production."),
       task: () =>
         runScripts(options)
           .then((res) => {
-            console.log(res);
+            // console.log(res);
           })
           .catch((error) => {
             console.error(`%s ${error}`, chalk.red.bold("❌"));
