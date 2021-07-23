@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var jsdom = require("jsdom");
@@ -41,4 +43,4 @@ var InsertData = /** @class */ (function () {
     };
     return InsertData;
 }());
-module.exports = InsertData;
+exports.default = InsertData;

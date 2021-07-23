@@ -48,13 +48,18 @@ function parseArgumentsIntoOptions(rawArgs) {
     }, {
         argv: rawArgs.slice(2),
     });
-    var envChoices = ["start", "build"];
+    var envChoices = ["start", "build", "data"];
     if (!envChoices.includes(args._[0])) {
         throw new Error("environment mismatch, set either start or build.");
     }
     return {
         port: args["--port"] || "8080",
-        env: args._[0] === "build" ? "production" : "development",
+        env: args._[0] === "build"
+            ? "production"
+            : args._[0] === "data"
+                ? "development"
+                : "development",
+        data: args._[0] === "data",
     };
 }
 function cli(args) {

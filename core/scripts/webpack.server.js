@@ -1,42 +1,70 @@
-var CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
-var CopyPlugin = require("copy-webpack-plugin");
-var TerserPlugin = require("terser-webpack-plugin");
-var Dotenv = require("dotenv-webpack");
-var path = require("path");
-var APP_SOURCE = path.join(__dirname, "src");
-var BUILD_OUT = path.join(__dirname, "dist");
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var clean_webpack_plugin_1 = require("clean-webpack-plugin");
+var copy_webpack_plugin_1 = __importDefault(require("copy-webpack-plugin"));
+var terser_webpack_plugin_1 = __importDefault(require("terser-webpack-plugin"));
+var path_1 = __importDefault(require("path"));
+var webpack_browser_1 = __importDefault(require("./webpack.browser"));
+var APP_SOURCE = path_1.default.join(process.env.APP_DIRECTORY, "/src");
+var BUILD_OUT = path_1.default.join(process.env.APP_DIRECTORY, "/dist");
 /**
  * @description Server webpack configuration compiles backend end side.
  */
 var server = {
     name: "server",
-    mode: "development",
-    entry: { index: path.join(APP_SOURCE, "server") },
-    devtool: "inline-source-map",
-    stats: 'errors-warnings',
+    mode: process.env.NODE_ENV,
+    entry: { index: path_1.default.join(APP_SOURCE, "server") },
+    devtool: process.env.NODE_ENV === "development" ? "inline-source-map" : undefined,
+    stats: "errors-warnings",
     performance: {
-        hints: 'warning',
+        hints: "warning",
     },
     optimization: {
-        minimizer: [new TerserPlugin()],
+        minimizer: [new terser_webpack_plugin_1.default()],
     },
     output: {
-        path: path.join(BUILD_OUT, "server"),
+        path: path_1.default.join(BUILD_OUT, "server"),
         filename: "index.js",
         library: {
             type: "this",
         },
     },
     plugins: [
-        new Dotenv(),
-        new CleanWebpackPlugin(),
-        new CopyPlugin({
+        new clean_webpack_plugin_1.CleanWebpackPlugin(),
+        new copy_webpack_plugin_1.default({
             patterns: [
-                { from: __dirname + "/public/assets/data/pages.website.json", to: BUILD_OUT + "/server/" },
-                { from: __dirname + "/public/assets/data/global.website.json", to: BUILD_OUT + "/server/" },
+                {
+                    from: path_1.default.join(process.env.APP_DIRECTORY, "/public/assets/data/pages.website.json"),
+                    to: path_1.default.join(BUILD_OUT, "/server/"),
+                },
+                {
+                    from: process.env.APP_DIRECTORY + "/public/assets/data/global.website.json",
+                    to: path_1.default.join(BUILD_OUT, "/server/"),
+                },
+                {
+                    from: process.env.APP_DIRECTORY + "/public/assets/data/config.website.json",
+                    to: path_1.default.join(BUILD_OUT, "/server/"),
+                },
             ],
         }),
     ],
+    resolve: {
+        modules: [
+            path_1.default.resolve(process.env.APP_DIRECTORY, "/src"),
+            path_1.default.join(process.env.APP_DIRECTORY, "/node_modules"),
+        ],
+        extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+    },
+    /**
+     * resolve loaders from the CLI node_modules.
+     */
+    resolveLoader: {
+        modules: [path_1.default.join(__dirname, "../../node_modules")],
+        extensions: ["*"],
+    },
     module: {
         rules: [
             {
@@ -61,8 +89,5 @@ var server = {
             },
         ],
     },
-    resolve: {
-        extensions: [".js", ".jsx", ".tsx", ".ts"],
-    },
 };
-module.exports = server;
+exports.default = [webpack_browser_1.default, server];

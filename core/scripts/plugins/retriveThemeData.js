@@ -49,7 +49,7 @@ var RetriveThemeData = /** @class */ (function () {
     }
     RetriveThemeData.prototype.apply = function (compiler) {
         var _this = this;
-        compiler.hooks.done.tapAsync("Example", function (stats) { return __awaiter(_this, void 0, void 0, function () {
+        compiler.hooks.done.tap("RetriveThemeData", function (stats) { return __awaiter(_this, void 0, void 0, function () {
             var _a, outputPath, assets, sections, pages;
             return __generator(this, function (_b) {
                 switch (_b.label) {

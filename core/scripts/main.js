@@ -54,6 +54,9 @@ function setEnvironmentVariables(options) {
     process.env.PORT = options.port || "8080";
 }
 exports.setEnvironmentVariables = setEnvironmentVariables;
+/**
+ * @description run webpack configuration to build data to public folder.
+ */
 function getDataFiles(options) {
     return __awaiter(this, void 0, void 0, function () {
         var dataConfigPath, webpackCliPath, runArgs;
@@ -74,10 +77,24 @@ function getDataFiles(options) {
 exports.getDataFiles = getDataFiles;
 function runScripts(options) {
     return __awaiter(this, void 0, void 0, function () {
+        var browserConfigPath, serverConfigPath, webpackCliPath, runArgs;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getDataFiles(options)];
+                case 0:
+                    if (!options.data) return [3 /*break*/, 2];
+                    return [4 /*yield*/, getDataFiles(options)];
                 case 1: return [2 /*return*/, _a.sent()];
+                case 2:
+                    browserConfigPath = path_1.default.join(__dirname, "webpack.browser.js");
+                    serverConfigPath = path_1.default.join(__dirname, "webpack.server.js");
+                    webpackCliPath = path_1.default.join(__dirname, "../../node_modules/.bin/webpack");
+                    runArgs = options.env === "development"
+                        ? ["serve", "--config", browserConfigPath, "--hot", "--open"]
+                        : ["--config", serverConfigPath, "--mode", options.env];
+                    return [4 /*yield*/, execa_1.default("" + webpackCliPath, runArgs, {
+                            cwd: process.cwd(),
+                        })];
+                case 3: return [2 /*return*/, _a.sent()];
             }
         });
     });
@@ -93,13 +110,15 @@ function run(options) {
                     setEnvironmentVariables(options);
                     tasks = new listr_1.default([
                         {
-                            title: options.env === "development"
-                                ? chalk_1.default.blueBright.bold("Running in development mode at http://localhost:" + process.env.PORT + ".")
-                                : chalk_1.default.blueBright.bold("Building production."),
+                            title: options.data
+                                ? "Watching data changes..."
+                                : options.env === "development"
+                                    ? chalk_1.default.blueBright.bold("Running in development mode at http://localhost:" + process.env.PORT + ".")
+                                    : chalk_1.default.blueBright.bold("Building production."),
                             task: function () {
                                 return runScripts(options)
                                     .then(function (res) {
-                                    console.log(res);
+                                    // console.log(res);
                                 })
                                     .catch(function (error) {
                                     console.error("%s " + error, chalk_1.default.red.bold("❌"));

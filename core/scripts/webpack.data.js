@@ -56,7 +56,7 @@ var retriveThemeData_1 = require("./plugins/retriveThemeData");
 var global_1 = require("./layers/global");
 var getEntries_1 = require("./helpers/getEntries");
 var APP_SOURCE = path_1.default.join(process.env.APP_DIRECTORY, "/src");
-var BUILD_OUT = path_1.default.join(process.env.APP_DIRECTORY, "/dist");
+var BUILD_OUT = path_1.default.join(__dirname, "/__dir");
 /**
  * @description Data webpack configuration compiles theme data json.
  */
@@ -99,16 +99,23 @@ var config = function () { return __awaiter(void 0, void 0, void 0, function () 
                         resolve({
                             name: "data",
                             mode: process.env.NODE_ENV,
+                            watch: true,
+                            watchOptions: {
+                                ignored: /node_modules/,
+                                followSymlinks: true,
+                                poll: true,
+                            },
                             entry: __assign(__assign(__assign({}, sectionEntries), pageEntries), { _global: path_1.default.join(globalEntry, "global.data") }),
                             output: {
                                 filename: "[name].[fullhash].js",
-                                path: path_1.default.resolve(BUILD_OUT, "browser"),
+                                path: path_1.default.resolve(BUILD_OUT),
                                 clean: true,
                                 library: {
                                     // name: "themeData",
                                     type: "commonjs",
                                 },
                             },
+                            stats: "errors-warnings",
                             optimization: {
                                 minimize: true,
                             },
@@ -142,4 +149,4 @@ var config = function () { return __awaiter(void 0, void 0, void 0, function () 
         }
     });
 }); };
-module.exports = config;
+exports.default = config;
