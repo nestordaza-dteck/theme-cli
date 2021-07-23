@@ -1,24 +1,22 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const path = require("path");
-const InsertData = require("./plugins/plugin");
-const webpack = require("webpack");
-const getClientEnvironment = require("./helpers/env");
-
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
+import TerserPlugin from "terser-webpack-plugin";
+import path from "path";
+import InsertData from "./plugins/plugin";
+import webpack from "webpack";
+import getClientEnvironment from "./helpers/env";
 const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
 const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
 const env = getClientEnvironment("/");
-
 
 /**
  * @description Browser webpack configuration compiles frontend end side.
  */
 const browser = {
   name: "browser",
-  mode: "development",
+  mode: process.env.NODE_ENV,
   entry: path.join(APP_SOURCE, "index.tsx"),
   output: {
     filename: "assets/js/index.js",
@@ -133,4 +131,4 @@ const browser = {
   },
 };
 
-module.exports = browser;
+export default browser;
