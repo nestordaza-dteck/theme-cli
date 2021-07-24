@@ -35,6 +35,14 @@ async function setPackageInfoDefaults(options: CLIOptions) {
       defaultPackageJson["version"] = "1.0.0";
       defaultPackageJson["homepage"] = "/";
       defaultPackageJson["private"] = true;
+      defaultPackageJson["browserslist"] = [
+        "defaults",
+        "not ie < 11",
+        "last 2 versions",
+        "> 1%",
+        "iOS 7",
+        "last 3 iOS versions",
+      ];
       fs.writeFileSync(
         packageJsonPath,
         JSON.stringify(defaultPackageJson, null, 2)
