@@ -17,7 +17,7 @@ function parseArgumentsIntoOptions(rawArgs: string[]) {
   }
 
   return {
-    port: args["--port"] || "8080",
+    port: args["--port"],
     env:
       args._[0] === "build"
         ? "production"

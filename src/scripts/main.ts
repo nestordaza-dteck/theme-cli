@@ -4,6 +4,7 @@ import path from "path";
 // @ts-ignore
 import Listr from "listr";
 import fs from "fs";
+import getClientEnvironment from "./helpers/env";
 
 //set environment
 export function setEnvironmentVariables(options: ScriptsOptions) {
@@ -13,7 +14,9 @@ export function setEnvironmentVariables(options: ScriptsOptions) {
     process.env.APP_DIRECTORY,
     "public/assets/data"
   );
-  process.env.PORT = options.port || "8080";
+
+  const env = getClientEnvironment("/");
+  process.env.PORT = options.port || env.raw.PORT;
 }
 
 /**
@@ -74,9 +77,9 @@ export async function run(options: ScriptsOptions) {
       title: options.data
         ? "Watching data changes..."
         : options.env === "development"
-        ? chalk.blueBright.bold(
-            `Running in development mode at http://localhost:${process.env.PORT}.`
-          )
+        ? `${chalk.blueBright.bold(
+            `Running in development mode at: `
+          )}http://localhost:${process.env.PORT}.`
         : chalk.blueBright.bold("Building production."),
       task: () =>
         runScripts(options)
@@ -87,7 +90,6 @@ export async function run(options: ScriptsOptions) {
             console.error(`%s ${error}`, chalk.red.bold("❌"));
             process.exit(1);
           }),
-      enabled: () => true,
     },
   ]);
 

@@ -20,7 +20,7 @@ declare interface CLIOptions {
 
 declare interface ScriptsOptions {
   env: "development" | "production";
-  port: string;
+  port?: string;
   data: boolean;
 }
 
