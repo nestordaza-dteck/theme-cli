@@ -78,7 +78,7 @@ async function createInitialFile(options: CLIOptions) {
         `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
         ".gitignore"
       ),
-      `node_modules/\nbuild/\ndist/
+      `node_modules/\nbuild/\ndist/\npackage-lock.json\nyarn-lock.json
         `
     );
 
