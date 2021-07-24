@@ -10,30 +10,38 @@ import getClientEnvironment from "./helpers/env";
 const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
 const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
 const env = getClientEnvironment("/");
+import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 
 /**
  * @description Browser webpack configuration compiles frontend end side.
  */
-const browser = {
+const browser: webpack.Configuration & {
+  devServer: WebpackDevServerConfiguration;
+} = {
+  context: process.env.APP_DIRECTORY,
   name: "browser",
   mode: process.env.NODE_ENV,
   entry: path.join(APP_SOURCE, "index.tsx"),
   output: {
     filename: "assets/js/index.js",
     path: path.join(BUILD_OUT, "browser"),
+    publicPath: "/",
   },
+
   stats: {
     children: true,
   },
   performance: {
     hints: process.env.NODE_ENV === "production" ? "warning" : false,
   },
+  devtool: "source-map",
   devServer: {
-    contentBase: path.join(process.env.APP_DIRECTORY, "/public"),
-    port: process.env.PORT || "8080",
-    historyApiFallback: {
-      index: "/",
-    },
+    compress: true,
+    contentBase: path.resolve(process.env.APP_DIRECTORY, "public"),
+    hot: true,
+    port: Number(process.env.PORT || "8080"),
+    historyApiFallback: true,
+    publicPath: "/",
   },
   plugins: [
     /**
@@ -67,6 +75,7 @@ const browser = {
     modules: [
       path.resolve(process.env.APP_DIRECTORY, "/src"),
       path.join(process.env.APP_DIRECTORY, "/node_modules"),
+      path.resolve(__dirname, "../../node_modules"),
     ],
     extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
   },
