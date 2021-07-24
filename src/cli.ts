@@ -33,8 +33,8 @@ async function promptForMissingOptions(
   /**
    * @description list of available templates to be prompt
    */
-  const availableTemplates: Readonly<Template[]> = Object.freeze(["Tailwind"]);
-  const defaultTemplate: Template = "Tailwind";
+  const availableTemplates: Readonly<Template[]> = Object.freeze(["scratch"]);
+  const defaultTemplate: Template = "scratch";
   if (options.skipPrompts) {
     return {
       ...options,
