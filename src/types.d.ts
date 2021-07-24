@@ -1,7 +1,7 @@
 /**
  * @description available templates
  */
-declare type Template = "Tailwind";
+declare type Template = "scratch";
 
 declare interface CLIOptions {
   skipPrompts: boolean;
