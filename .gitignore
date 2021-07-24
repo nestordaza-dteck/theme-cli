@@ -1,3 +1,5 @@
 /test/**
 /node_modules
+/core
 /core/scripts/__dir
+.DS_Store
