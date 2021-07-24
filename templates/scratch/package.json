@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "ISC",
   "scripts": {
-    "scripts:build": "scripts-theme build",
-    "scripts:start": "scripts-theme start",
-    "scripts:data": "scripts-theme data"
+    "data": "scripts-theme data",
+    "build": "scripts-theme build",
+    "start": "scripts-theme start"
   },
   "dependencies": {
     "react": "^17.0.2",
