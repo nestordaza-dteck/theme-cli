@@ -34,8 +34,6 @@ export async function getDataFiles(options: ScriptsOptions) {
   return await execa(`${webpackCliPath}`, runArgs, {
     cwd: process.cwd(),
   });
-
-  // await createGlobal(options);
 }
 
 export async function runScripts(options: ScriptsOptions) {
