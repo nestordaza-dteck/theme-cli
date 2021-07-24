@@ -7,10 +7,12 @@ import path from "path";
 import InsertData from "./plugins/plugin";
 import webpack from "webpack";
 import getClientEnvironment from "./helpers/env";
+import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+import autoprefixer from "autoprefixer";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
 const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
 const env = getClientEnvironment("/");
-import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 
 /**
  * @description Browser webpack configuration compiles frontend end side.
@@ -56,6 +58,7 @@ const browser: webpack.Configuration & {
       title: "Soltivo Theme",
       template: path.join(process.env.APP_DIRECTORY, "/public/index.ejs"),
       publicPath: process.env.PUBLIC_URL || env.raw.PUBLIC_URL,
+      cache: false,
     }),
     new InsertData(),
     new CopyPlugin({
@@ -69,7 +72,7 @@ const browser: webpack.Configuration & {
     }),
   ],
   optimization: {
-    minimizer: [new TerserPlugin()],
+    minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
   },
   resolve: {
     modules: [
@@ -108,18 +111,30 @@ const browser: webpack.Configuration & {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [
+          process.env.NODE_ENV === "development"
+            ? "style-loader"
+            : MiniCssExtractPlugin.loader,
+          "css-loader",
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          MiniCssExtractPlugin.loader,
+          process.env.NODE_ENV === "development"
+            ? "style-loader"
+            : MiniCssExtractPlugin.loader,
           "css-loader",
           "resolve-url-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              sourceMap: true,
+              postcssOptions: {
+                plugins: [autoprefixer],
+              },
+            },
+          },
           {
             loader: "sass-loader",
             options: {

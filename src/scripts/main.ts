@@ -79,7 +79,7 @@ export async function run(options: ScriptsOptions) {
         : options.env === "development"
         ? `${chalk.blueBright.bold(
             `Running in development mode at: `
-          )}http://localhost:${process.env.PORT}.`
+          )}http://localhost:${process.env.PORT}`
         : chalk.blueBright.bold("Building production."),
       task: () =>
         runScripts(options)
