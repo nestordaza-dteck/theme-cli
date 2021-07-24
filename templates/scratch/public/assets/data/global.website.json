@@ -1,0 +1,55 @@
+{
+  "orgId": "",
+  "themeId": "",
+  "general": {
+    "favicon": "",
+    "name": "Scratch",
+    "email": "your_email@example.com",
+    "telephone": "",
+    "address": "",
+    "facebook": "",
+    "twitter": "",
+    "instagram": ""
+  },
+  "font": {
+    "id": 1,
+    "name": "Poppins",
+    "href": "https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap",
+    "cssRule": "font-family: \"Poppins\", sans-serif !important;"
+  },
+  "colors": {
+    "accent": "#86B0C1",
+    "text": "#55555",
+    "background": "#EEEEEE"
+  },
+  "nav": {
+    "data": {
+      "items": []
+    }
+  },
+  "footer": {
+    "data": {}
+  },
+  "page": {
+    "id": 1,
+    "default": true,
+    "selected": false,
+    "name": "homepage",
+    "thumbnail": "",
+    "title": "home page",
+    "description": "my home page",
+    "route": "/",
+    "sections": [
+      {
+        "data": {
+          "title": "Create soltivo theme",
+          "description": "The people who are crazy enough to think they can change the world are the ones who do it."
+        },
+        "default": true,
+        "id": 1,
+        "name": "introduction",
+        "selected": false
+      }
+    ]
+  }
+}

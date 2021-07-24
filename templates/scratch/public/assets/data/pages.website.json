@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "default": true,
+    "selected": false,
+    "name": "homepage",
+    "thumbnail": "",
+    "title": "home page",
+    "description": "my home page",
+    "route": "/",
+    "sections": [
+      {
+        "data": {
+          "title": "Create soltivo theme",
+          "description": "The people who are crazy enough to think they can change the world are the ones who do it."
+        },
+        "default": true,
+        "id": 1,
+        "name": "introduction",
+        "selected": false
+      }
+    ]
+  }
+]

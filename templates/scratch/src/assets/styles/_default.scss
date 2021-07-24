@@ -1,0 +1,24 @@
+:root {
+  font-size: 10px;
+  color: var(--text);
+  line-height: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  //variable defined from the theme.
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+b {
+  font-weight: 500;
+}

@@ -5,7 +5,7 @@ export default (): GlobalDataFields => {
   const defaultFont = {
     id: 1,
     name: "Poppins",
-    href: "https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;600;900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap",
     cssRule: 'font-family: "Poppins", sans-serif !important;',
   };
 
@@ -15,18 +15,23 @@ export default (): GlobalDataFields => {
       themeId: process.env.THEME_ID || "",
       general: {
         favicon: "",
-        name: "Business name",
+        name: "Scratch",
+        email: "your_email@example.com",
+        telephone: "",
+        address: "",
+        facebook: "",
+        twitter: "",
+        instagram: "",
       },
       font: defaultFont,
       colors: {
-        accent: "#03a57b",
-        text: "#333333",
-        background: "#ffffff",
+        accent: "#86B0C1",
+        text: "#55555",
+        background: "#EEEEEE",
       },
       nav: {
         data: {
-          items: [{ id: 2, name: "About" }],
-          button: "Book now",
+          items: [],
         },
       },
       footer: {
@@ -47,7 +52,6 @@ export default (): GlobalDataFields => {
       nav: {
         data: {
           items: [{ name: "string|max:20" }],
-          button: "string|max:30",
         },
       },
       footer: {

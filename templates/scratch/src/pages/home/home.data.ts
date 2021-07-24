@@ -12,7 +12,7 @@ export default (): PageDataFields => {
       title: "home page",
       description: "my home page",
       route: "/",
-      withSections: [],
+      withSections: ["introduction"],
     },
   };
 };

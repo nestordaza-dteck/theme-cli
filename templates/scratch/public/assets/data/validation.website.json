@@ -15,19 +15,20 @@
         {
           "name": "string|max:20"
         }
-      ],
-      "button": "string|max:30"
+      ]
     }
+  },
+  "footer": {
+    "data": {}
   },
   "pages": [
     {
       "id": 1,
       "sections": [
         {
-          "id": 2,
-          "name": "about",
+          "id": 1,
+          "name": "introduction",
           "data": {
-            "image": "url|file|mimes:png,jpeg,jpg",
             "title": "string|max:30",
             "description": "string"
           }
