@@ -8,6 +8,8 @@ const Introduction = () => {
 
   return (
     <div
+      data-for="background-image"
+      data-type="introduction/background"
       id="introduction"
       className="bg-background bg-no-repeat bg-cover bg-center h-screen w-screen"
       style={{
@@ -16,11 +18,19 @@ const Introduction = () => {
     >
       <div className="flex justify-center items-center p-10 h-full">
         <div>
-          <h2 className="text-center text-5xl font-light text-accent">
+          <h2
+            data-for="text"
+            data-type="introduction/title"
+            className="text-center text-5xl font-light text-accent"
+          >
             {section?.data.title}
           </h2>
 
-          <p className="text-center text-1xl font-light mt-5 text-text">
+          <p
+            data-for="text"
+            data-type="introduction/description"
+            className="text-center text-1xl font-light mt-5 text-text"
+          >
             {section?.data.description}
           </p>
         </div>
