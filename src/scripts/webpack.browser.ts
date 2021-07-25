@@ -14,6 +14,7 @@ const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
 const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
 const env = getClientEnvironment("/");
 
+const publicPath = env.raw.PUBLIC_URL || process.env.PUBLIC_URL || "/";
 /**
  * @description Browser webpack configuration compiles frontend end side.
  */
@@ -27,7 +28,7 @@ const browser: webpack.Configuration & {
   output: {
     filename: "assets/js/index.js",
     path: path.join(BUILD_OUT, "browser"),
-    publicPath: "/",
+    publicPath: publicPath,
   },
 
   stats: {
@@ -43,7 +44,7 @@ const browser: webpack.Configuration & {
     hot: true,
     port: Number(process.env.PORT || "8080"),
     historyApiFallback: true,
-    publicPath: "/",
+    publicPath: publicPath,
   },
   plugins: [
     /**
@@ -57,7 +58,7 @@ const browser: webpack.Configuration & {
     new HtmlWebpackPlugin({
       title: "Soltivo Theme",
       template: path.join(process.env.APP_DIRECTORY, "/public/index.ejs"),
-      publicPath: process.env.PUBLIC_URL || env.raw.PUBLIC_URL,
+      publicPath: publicPath,
       cache: false,
     }),
     new InsertData(),
@@ -89,6 +90,13 @@ const browser: webpack.Configuration & {
     modules: [path.join(__dirname, "../../node_modules")],
     extensions: ["*"],
   },
+
+  /**
+   * We have an issue with HOT LOADING in webpack at the time so we cannot use
+   * browserslist for some reason... when this is fixed we can remove target all
+   * together.
+   */
+  target: process.env.NODE_ENV === "development" ? "web" : "browserslist",
   module: {
     rules: [
       {
@@ -116,6 +124,20 @@ const browser: webpack.Configuration & {
             ? "style-loader"
             : MiniCssExtractPlugin.loader,
           "css-loader",
+          // "resolve-url-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              sourceMap: true,
+              postcssOptions: {
+                plugins: [["postcss-preset-env", {}], autoprefixer],
+                config: path.join(
+                  process.env.APP_DIRECTORY,
+                  "postcss.config.js"
+                ),
+              },
+            },
+          },
         ],
       },
       {
@@ -131,7 +153,11 @@ const browser: webpack.Configuration & {
             options: {
               sourceMap: true,
               postcssOptions: {
-                plugins: [autoprefixer],
+                plugins: [["postcss-preset-env", {}], autoprefixer],
+                config: path.join(
+                  process.env.APP_DIRECTORY,
+                  "postcss.config.js"
+                ),
               },
             },
           },
