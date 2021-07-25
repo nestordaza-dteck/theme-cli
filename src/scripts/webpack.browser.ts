@@ -14,7 +14,8 @@ const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
 const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
 const env = getClientEnvironment("/");
 
-const publicPath = env.raw.PUBLIC_URL || process.env.PUBLIC_URL || "/";
+const publicPath = env.raw.PUBLIC_URL;
+
 /**
  * @description Browser webpack configuration compiles frontend end side.
  */
