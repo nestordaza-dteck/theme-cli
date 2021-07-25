@@ -1,0 +1,67 @@
+{
+  "orgId": "",
+  "themeId": "4c113a52-8f54-4576-a8bc-ba8db269d4d2",
+  "general": {
+    "favicon": "",
+    "name": "Scratch",
+    "email": "your_email@example.com",
+    "telephone": "",
+    "address": "",
+    "facebook": "",
+    "twitter": "",
+    "instagram": ""
+  },
+  "font": {
+    "id": 1,
+    "name": "Poppins",
+    "href": "https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap",
+    "cssRule": "font-family: \"Poppins\", sans-serif !important;"
+  },
+  "colors": {
+    "accent": "#FFFFFF",
+    "text": "#EEEEEE",
+    "background": "#222222"
+  },
+  "nav": {
+    "data": {
+      "items": [
+        {
+          "id": 1,
+          "name": "Home",
+          "link": "/"
+        },
+        {
+          "id": 2,
+          "name": "About",
+          "link": "/about"
+        }
+      ]
+    }
+  },
+  "footer": {
+    "data": {}
+  },
+  "page": {
+    "id": 1,
+    "default": true,
+    "selected": false,
+    "name": "homepage",
+    "thumbnail": "",
+    "title": "home page",
+    "description": "my home page",
+    "route": "/",
+    "sections": [
+      {
+        "data": {
+          "background": "https://images.unsplash.com/photo-1627209024738-6499648d041e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
+          "title": "CST Tailwind boilerplate",
+          "description": "The people who are crazy enough to think they can change the world are the ones who do it."
+        },
+        "default": true,
+        "id": 1,
+        "name": "introduction",
+        "selected": false
+      }
+    ]
+  }
+}
