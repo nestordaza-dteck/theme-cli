@@ -16,6 +16,61 @@ function clearThemeName(name: string) {
 }
 
 /**
+ * @description insert declaration files inside theme.
+ */
+const createDeclarationFiles = async (options: CLIOptions) => {
+  try {
+    const srcPath = path.join(
+      `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
+      "src"
+    );
+
+    const _DATA_FILE_NAME = "data.d.ts";
+    const _PLUGINS_FILE_NAME = "plugins.d.ts";
+    const _THEME_FILE_NAME = "theme.d.ts";
+
+    // get declaration files in CLI
+    const dataDeclaration = await fs.readFileSync(
+      path.join(__dirname, `${_DATA_FILE_NAME}`)
+    );
+    const pluginDeclaration = await fs.readFileSync(
+      path.join(__dirname, `${_PLUGINS_FILE_NAME}`)
+    );
+    const themeDeclaration = await fs.readFileSync(
+      path.join(__dirname, `${_THEME_FILE_NAME}`)
+    );
+
+    const declarationListString = {
+      [_PLUGINS_FILE_NAME]: pluginDeclaration.toString(),
+      [_DATA_FILE_NAME]: dataDeclaration.toString(),
+      [_THEME_FILE_NAME]: themeDeclaration.toString(),
+    };
+
+    const declarationListStringKeys = Object.keys(declarationListString);
+
+    //loop through all files data.
+    for (let i = 0; i < declarationListStringKeys.length; i++) {
+      const fileName = declarationListStringKeys[i];
+
+      //create or overide declaration files inside theme.
+      await fs.access(srcPath, async (err) => {
+        if (err) {
+          await fs.mkdirSync(srcPath, { recursive: true });
+        }
+        await fs.writeFileSync(
+          path.join(srcPath, fileName),
+          declarationListString[fileName]
+        );
+      });
+    }
+  } catch (error) {
+    return Promise.reject(
+      new Error(`Failed to create declaration files, reason: ${error}`)
+    );
+  }
+};
+
+/**
  * @description set default package.json fields.
  */
 async function setPackageInfoDefaults(options: CLIOptions) {
@@ -69,6 +124,7 @@ async function createInitialFile(options: CLIOptions) {
       THEME_BOOKING_APP_URL: "https://booking.mysoltivo.dev",
     };
 
+    //.env
     await fs.writeFileSync(
       path.join(
         `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
@@ -91,6 +147,7 @@ async function createInitialFile(options: CLIOptions) {
     );
 
     await setPackageInfoDefaults(options);
+    await createDeclarationFiles(options);
   } catch (error) {
     return Promise.reject(new Error(error));
   }

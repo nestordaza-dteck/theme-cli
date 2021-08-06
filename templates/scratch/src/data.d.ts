@@ -1,44 +1,4 @@
 /**
- * @info This is a file which contains all the types related to a
- * theme, you will be able to find the whole website structure and
- * also some of the apis we use inside the theme for plugins like
- * the booking apis and the CRM apis;
- *
- * @IMPORTANT if you want to modify any declaration in this file
- * overide it bellow the file or create another file and overide
- * there, so we can keep the consistence of the types. 😜
- *
- * @info Also if you think we should update this file we should
- * create an issue at: https://github.com/soltivo/create-theme/issues
- */
-
-declare module "*.svg" {
-  import React = require("react");
-  const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
-  const src: string;
-  export { ReactComponent };
-  export default src;
-}
-
-declare namespace React {
-  interface HTMLAttributes<T> extends React.HTMLAttributes<T> {
-    /**
-     * @description this is the type of element for editable elements in the builder.
-     */
-    "data-for"?: WebsiteDataFor;
-  }
-}
-
-declare interface Window extends Window {
-  /**
-   * @description this attribute is returned from the server and it contains
-   * the main global.json default or with modified attributes by an user/editor
-   * of a theme.
-   */
-  __INITIAL__DATA__: WebsiteData;
-}
-
-/**
  * @description type of config.website.json
  */
 interface WebsiteConfig {
@@ -69,31 +29,41 @@ interface WebsiteConfig {
   };
 }
 
-/**
- * @description global default data, validation & configuration of the theme.
- */
-declare interface GlobalDataFields {
-  website: Required<Omit<WebsiteData, "page">>;
-  validation: Required<Omit<Validation, "pages">>;
-  configuration: WebsiteConfig;
-}
-
-declare interface PageDataFields {
-  data: Required<Omit<WebsitePage, "sections" | "hidden">> &
-    Partial<Pick<WebsitePage, "hidden">> & {
-      /**
-       * @description list of sections by name.
-       */
-      withSections: string[];
+declare interface Validation {
+  /**
+   * @description general validation of a website.
+   */
+  general: {
+    name: string;
+    favicon: string;
+    [index: string]: any;
+  };
+  /**
+   * @description nav validation of a website.
+   */
+  nav?: {
+    data: {
+      items: { id?: string | number; name: string; link?: string }[];
+      [index: string]: any;
     };
-}
-
-/**
- * @description Section default data & validation.
- */
-declare interface SectionDataFields {
-  data: Required<WebsiteSection>;
-  validation: Required<WebsiteSection["data"]>;
+  };
+  /**
+   * @description footer validation of a website.
+   */
+  footer?: {
+    data: any;
+  };
+  /**
+   * @description pages validation of a website.
+   */
+  pages: Array<{
+    id: number;
+    sections: Array<{
+      id: number;
+      name: string;
+      data: any;
+    }>;
+  }>;
 }
 
 /**
@@ -368,170 +338,3 @@ interface WebsiteData {
    */
   page: WebsitePage;
 }
-
-declare interface Validation {
-  /**
-   * @description general validation of a website.
-   */
-  general: {
-    name: string;
-    favicon: string;
-    [index: string]: any;
-  };
-  /**
-   * @description nav validation of a website.
-   */
-  nav?: {
-    data: {
-      items: { id?: string | number; name: string; link?: string }[];
-      [index: string]: any;
-    };
-  };
-  /**
-   * @description footer validation of a website.
-   */
-  footer?: {
-    data: any;
-  };
-  /**
-   * @description pages validation of a website.
-   */
-  pages: Array<{
-    id: number;
-    sections: Array<{
-      id: number;
-      name: string;
-      data: any;
-    }>;
-  }>;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                           //
-//                                      PLUGINS                                              //
-//                                                                                           //
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * @description list of plugins available in the builder using APIs from mysoltivo dashboard
- */
-declare interface Plugins {
-  /**
-   * @description booking plugin.
-   */
-  booking: {
-    /**
-     * @description list of categories available from mysoltivo
-     */
-    category: PluginBookingCategories;
-    /**
-     * @description list of services available from mysoltivo
-     */
-    service: { data: PluginServiceItem[]; loading: boolean };
-  };
-
-  /**
-   * @description crm plugin for contact form
-   */
-  contact: {
-    fields: CRMCustomField[];
-  };
-}
-
-/**
- * @description category item of booking listing.
- */
-declare interface PluginBookingCategoryItem {
-  description: string;
-  id: string;
-  name: string;
-  color: string;
-  lowestPrice?: number | null;
-}
-
-/**
- * @description list of categories in booking api.
- */
-declare interface PluginBookingCategories {
-  Items?: PluginBookingCategoryItem[] | null;
-  Count: number;
-  ScannedCount: number;
-}
-
-/**
- * @description a service item in service api plugin.
- */
-declare type PluginServiceItem = {
-  bufferTime: number;
-  category: string;
-  currency: string;
-  description: string;
-  serviceId: string;
-  title: string;
-  price: number;
-  duration: number;
-  image: string;
-  employees: any[];
-};
-
-/**
- * @description CRM entity types
- */
-declare type CRMEntityType = "lead" | "supplier" | "client";
-
-/**
- * @description CRM custom fields type
- */
-declare type CRMCustomField = {
-  title: string;
-  type: "text";
-};
-
-/**
- * @description CRM entity type (lead client or supplier)
- */
-declare type CRMEntity = {
-  phoneNumber: string | { number: string; extension?: string };
-  lastName: string;
-  entityId: string;
-  businessAddress?: CRMBillingAddress;
-  createdAt: number;
-  email: string;
-  createdBy: string;
-  firstName: string;
-  businessInformation?: CRMBusinessInformation;
-  type: any;
-  origin: string;
-  manager: string;
-  [index: string]: any;
-};
-
-/**
- * @description crm billing information of an entity
- */
-declare type CRMBillingAddress = {
-  address1: string;
-  address2: string;
-  city: string;
-  country: string;
-  state: string;
-  zipCode: string;
-};
-
-/**
- * @description crm businness information of an entity
- */
-declare type CRMBusinessInformation = {
-  businessName: string;
-  phoneNumber: string;
-  secondaryContactEmail: string;
-  secondaryFirstName: string;
-  secondaryLastName: string;
-  supportEmail: string;
-};
-
-/**
- *
- * Define you custom types down here.
- *
- */
