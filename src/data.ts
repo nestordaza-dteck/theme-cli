@@ -96,7 +96,8 @@ declare type WebsiteDataFor =
 declare type WebsiteDataType = string;
 
 /**
- * @description custom plugin
+ * @description which type of plugin you would like to use for an specific dom element.
+ * @important data-plugin attribute should be defined together with data-for="plugin"
  */
 declare type WebsiteDataPlugin =
   | "booking/category"

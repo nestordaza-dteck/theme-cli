@@ -26,6 +26,16 @@ declare namespace React {
      * @description this is the type of element for editable elements in the builder.
      */
     "data-for"?: WebsiteDataFor;
+    /**
+     * @description data-type defines where this specific element has data stored in
+     * pages.data.json
+     */
+    "data-type"?: string;
+    /**
+     * @description which type of plugin you would like to use for an specific dom element.
+     * @important data-plugin attribute should be defined together with data-for="plugin"
+     */
+    "data-plugin"?: WebsiteDataPlugin;
   }
 }
 
