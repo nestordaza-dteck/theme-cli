@@ -20,11 +20,11 @@ declare interface Plugins {
     /**
      * @description list of categories available from mysoltivo
      */
-    category: PluginBookingCategories;
+    category: { data: ServiceCategoryItem[]; loading: boolean };
     /**
      * @description list of services available from mysoltivo
      */
-    service: { data: PluginServiceItem[]; loading: boolean };
+    service: { data: ServiceItem[]; loading: boolean };
   };
 
   /**
@@ -38,7 +38,7 @@ declare interface Plugins {
 /**
  * @description category item of booking listing.
  */
-declare interface PluginBookingCategoryItem {
+declare interface ServiceCategoryItem {
   description: string;
   id: string;
   name: string;
@@ -47,18 +47,9 @@ declare interface PluginBookingCategoryItem {
 }
 
 /**
- * @description list of categories in booking api.
- */
-declare interface PluginBookingCategories {
-  Items?: PluginBookingCategoryItem[] | null;
-  Count: number;
-  ScannedCount: number;
-}
-
-/**
  * @description a service item in service api plugin.
  */
-declare type PluginServiceItem = {
+declare type ServiceItem = {
   bufferTime: number;
   category: string;
   currency: string;
