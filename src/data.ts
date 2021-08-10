@@ -12,7 +12,7 @@
 /**
  * @description type of config.website.json
  */
-interface WebsiteConfig {
+declare interface WebsiteConfig {
   /**
    * @description all available fonts for this theme.
    */
