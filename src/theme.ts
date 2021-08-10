@@ -35,7 +35,7 @@ declare namespace React {
      * @description which type of plugin you would like to use for an specific dom element.
      * @important data-plugin attribute should be defined together with data-for="plugin"
      */
-    "data-plugin"?: WebsiteDataPlugin;
+    "data-plugin"?: Exclude<WebsiteDataPlugin, "contact/fields">;
   }
 }
 
