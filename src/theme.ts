@@ -46,6 +46,13 @@ declare interface Window extends Window {
    * of a theme.
    */
   __INITIAL__DATA__: WebsiteData;
+  /**
+   * @description this attribute is returned from the server and it contains
+   * the main global.json default or with modified attributes by an user/editor
+   * of a theme.
+   * @important this is only for development, use __INITIAL__DATA__ for production.
+   */
+  __INITIAL__DEV__DATA__: WebsiteData;
 }
 
 /**
