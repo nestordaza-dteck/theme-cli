@@ -1,6 +1,6 @@
 {
   "name": "@soltivo/create-theme",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create soltivo themes CLI",
   "author": "Soltivo Team",
   "main": "core/index.js",
