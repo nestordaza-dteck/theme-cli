@@ -11,6 +11,7 @@ import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-serv
 import autoprefixer from "autoprefixer";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
+const APP_PUBLIC = path.join(process.env.APP_DIRECTORY, "/public");
 const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
 const env = getClientEnvironment("/");
 
@@ -52,6 +53,9 @@ const browser: webpack.Configuration & {
      * add custom variables from .env file inside running project.
      */
     new webpack.DefinePlugin(env.stringified),
+    new webpack.ProvidePlugin({
+      "window.__INITIAL__DEV__DATA__": "__INITIAL__DEV__DATA__",
+    }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "assets/css/index.css",
@@ -83,6 +87,15 @@ const browser: webpack.Configuration & {
       path.resolve(__dirname, "../../node_modules"),
     ],
     extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+    alias: {
+      /**
+       * this is for development to insert the actual data into the dom.
+       */
+      __INITIAL__DEV__DATA__: path.resolve(
+        APP_PUBLIC,
+        "assets/data/global.website.json"
+      ),
+    },
   },
   /**
    * resolve loaders from the CLI node_modules.
