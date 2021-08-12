@@ -3,10 +3,6 @@ import inquirer from "inquirer";
 import { createProject } from "./main";
 
 function parseArgumentsIntoOptions(rawArgs: string[]) {
-  const splitPath = process.cwd().split(/\//);
-  // the name of the folder running the cli
-  const folderName = splitPath[splitPath.length - 1];
-
   const args = arg(
     {
       "--git": Boolean,
@@ -23,13 +19,17 @@ function parseArgumentsIntoOptions(rawArgs: string[]) {
     skipPrompts: args["--yes"] || false,
     git: args["--git"] || false,
     template: args._[0] as Template,
-    templateName: (args._[1] || folderName) as string,
+    projectName: args._[1] as string,
   };
 }
 
 async function promptForMissingOptions(
   options: CLIOptions
 ): Promise<CLIOptions> {
+  //get the name of the folder running the cli
+  const splitPath = process.cwd().split(/\//);
+  const folderName = splitPath[splitPath.length - 1];
+
   /**
    * @description list of available templates to be prompt
    */
@@ -46,6 +46,21 @@ async function promptForMissingOptions(
   }
 
   const questions = [];
+  if (!options.projectName) {
+    questions.push({
+      type: "input",
+      name: "projectName",
+      message: "Please provide a name for your project",
+      filter: (ans: string) => {
+        const test = ans.length > 0 && !/[0-9 ]/g.test(ans);
+        if (!test) {
+          throw new Error("Name must not have numbers or space.");
+        }
+        return ans;
+      },
+    });
+  }
+
   if (!options.template) {
     questions.push({
       type: "list",
@@ -66,10 +81,12 @@ async function promptForMissingOptions(
   }
 
   const answers = await inquirer.prompt(questions);
+
   return {
     ...options,
     template: options.template || answers.template,
     git: options.git || answers.git,
+    projectName: options.projectName || answers.projectName,
   };
 }
 
