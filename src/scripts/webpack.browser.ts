@@ -10,12 +10,20 @@ import getClientEnvironment from "./helpers/env";
 import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 import autoprefixer from "autoprefixer";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
+import fs from "fs";
 const APP_SOURCE = path.join(process.env.APP_DIRECTORY, "/src");
 const APP_PUBLIC = path.join(process.env.APP_DIRECTORY, "/public");
 const BUILD_OUT = path.join(process.env.APP_DIRECTORY, "/dist");
 const env = getClientEnvironment("/");
 
 const publicPath = env.raw.PUBLIC_URL;
+
+/**
+ * @description check if app project has a postcss.config.js in the app directory.
+ */
+const postCssConfigExist = fs.existsSync(
+  path.join(process.env.APP_DIRECTORY, "postcss.config.js")
+);
 
 /**
  * @description Browser webpack configuration compiles frontend end side.
@@ -145,10 +153,9 @@ const browser: webpack.Configuration & {
               sourceMap: true,
               postcssOptions: {
                 plugins: [["postcss-preset-env", {}], autoprefixer],
-                config: path.join(
-                  process.env.APP_DIRECTORY,
-                  "postcss.config.js"
-                ),
+                config: postCssConfigExist
+                  ? path.join(process.env.APP_DIRECTORY, "postcss.config.js")
+                  : undefined,
               },
             },
           },
@@ -168,10 +175,9 @@ const browser: webpack.Configuration & {
               sourceMap: true,
               postcssOptions: {
                 plugins: [["postcss-preset-env", {}], autoprefixer],
-                config: path.join(
-                  process.env.APP_DIRECTORY,
-                  "postcss.config.js"
-                ),
+                config: postCssConfigExist
+                  ? path.join(process.env.APP_DIRECTORY, "postcss.config.js")
+                  : undefined,
               },
             },
           },
