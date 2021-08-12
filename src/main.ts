@@ -21,7 +21,7 @@ function clearThemeName(name: string) {
 const createDeclarationFiles = async (options: CLIOptions) => {
   try {
     const srcPath = path.join(
-      `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
+      `${options.targetDirectory}/${clearThemeName(options.projectName)}`,
       "src"
     );
 
@@ -76,13 +76,13 @@ const createDeclarationFiles = async (options: CLIOptions) => {
 async function setPackageInfoDefaults(options: CLIOptions) {
   try {
     const packageJsonPath = path.join(
-      `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
+      `${options.targetDirectory}/${clearThemeName(options.projectName)}`,
       "package.json"
     );
     if (path.join(packageJsonPath, "package.json")) {
       const file = await fs.readFileSync(packageJsonPath);
       let defaultPackageJson = JSON.parse(file.toString());
-      defaultPackageJson["name"] = options.templateName;
+      defaultPackageJson["name"] = options.projectName;
       defaultPackageJson["description"] = "Describe your theme...";
       defaultPackageJson["author"] = "Soltivo team";
       defaultPackageJson["description"];
@@ -119,7 +119,7 @@ async function createInitialFile(options: CLIOptions) {
   try {
     const defaultEnv = {
       THEME_ID: v4(),
-      THEME_NAME: options.templateName,
+      THEME_NAME: options.projectName,
       THEME_GOOGLE_API_KEY: "AIzaSyBb01Bhrc3WVArxaA9H5_X1d5cUINSRZUE",
       THEME_BOOKING_APP_URL: "https://booking.mysoltivo.dev",
     };
@@ -127,7 +127,7 @@ async function createInitialFile(options: CLIOptions) {
     //.env
     await fs.writeFileSync(
       path.join(
-        `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
+        `${options.targetDirectory}/${clearThemeName(options.projectName)}`,
         ".env"
       ),
       Object.keys(defaultEnv)
@@ -139,7 +139,7 @@ async function createInitialFile(options: CLIOptions) {
     //.gitignore
     await fs.writeFileSync(
       path.join(
-        `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
+        `${options.targetDirectory}/${clearThemeName(options.projectName)}`,
         ".gitignore"
       ),
       `node_modules/\nbuild/\ndist/\npackage-lock.json\nyarn-lock.json
@@ -156,7 +156,7 @@ async function createInitialFile(options: CLIOptions) {
 async function copyTemplateFiles(options: CLIOptions) {
   //check if folder already exists and if it has content in it.
   const alreadyExists = await fs.existsSync(
-    `${options.targetDirectory}/${clearThemeName(options.templateName)}`
+    `${options.targetDirectory}/${clearThemeName(options.projectName)}`
   );
   if (alreadyExists) {
     return Promise.reject(
@@ -166,7 +166,7 @@ async function copyTemplateFiles(options: CLIOptions) {
 
   return copy(
     options.templateDirectory,
-    `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
+    `${options.targetDirectory}/${clearThemeName(options.projectName)}`,
     {
       clobber: false,
     }
@@ -175,7 +175,7 @@ async function copyTemplateFiles(options: CLIOptions) {
 
 async function initGit(options: CLIOptions) {
   const result = await execa("git", ["init"], {
-    cwd: `${options.targetDirectory}/${clearThemeName(options.templateName)}`,
+    cwd: `${options.targetDirectory}/${clearThemeName(options.projectName)}`,
   });
   if (result.failed) {
     return Promise.reject(new Error("Failed to initialize git"));
@@ -229,7 +229,7 @@ export async function createProject(options: CLIOptions) {
       task: () =>
         projectInstall({
           cwd: `${options.targetDirectory}/${clearThemeName(
-            options.templateName
+            options.projectName
           )}`,
         }),
       enabled: () => true,
@@ -242,7 +242,7 @@ export async function createProject(options: CLIOptions) {
     `\n\n%s\n\n%s\n\n%s\n\n%s\n\n%s\n\n`,
     chalk.green.bold("✅ Project template was created successfully."),
     `🔷 Run ${chalk.blueBright.bold(
-      `cd ${clearThemeName(options.templateName)}`
+      `cd ${clearThemeName(options.projectName)}`
     )} to enter your project directory`,
     `🔷 Run ${chalk.blueBright.bold("yarn start")} or ${chalk.blueBright.bold(
       "npm run start"

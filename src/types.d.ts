@@ -4,17 +4,30 @@
 declare type Template = "scratch" | "tailwind";
 
 declare interface CLIOptions {
+  /**
+   * @description if --yes flag was used to skip prompt.
+   */
   skipPrompts: boolean;
   /**
    * @description init github flag.
    */
   git: boolean;
+  /**
+   * @description name of the template to be used.
+   */
   template: Template;
   /**
    * @description install dependencies flag
    */
-  templateName: string;
+  projectName: string;
+  /**
+   * @description folder where  all the templates are located.
+   */
   templateDirectory?: string;
+  /**
+   * @description where the cli is running to create the theme
+   * is running.
+   */
   targetDirectory?: string;
 }
 
