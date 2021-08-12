@@ -3,5 +3,5 @@
 /core
 /core/scripts/__dir
 .DS_Store
-package-lock
+package-lock.json
 yarn.lock

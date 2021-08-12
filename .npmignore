@@ -11,5 +11,5 @@ config.gypi
 CVS
 npm-debug.log
 .DS_Store
-package-lock
+package-lock.json
 yarn.lock
