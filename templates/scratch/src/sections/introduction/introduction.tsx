@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { findSection } from "../../helpers/helpers";
+import { findSection } from "@soltivo/theme-library";
 import { WebsiteContext } from "../../data/website.context";
 import "./introduction.styles.scss";
 import { ReactComponent as Steve } from "../../assets/svg/steve.svg";

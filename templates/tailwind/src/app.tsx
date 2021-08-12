@@ -1,6 +1,6 @@
 import Routes from "./routes/routes";
 import { WebsiteContext } from "./data/website.context";
-import useBuilder from "./helpers/hooks/useBuilder";
+import { useBuilder } from "@soltivo/theme-library";
 
 const App = ({ global }: { global: WebsiteData }) => {
   const { website } = useBuilder({

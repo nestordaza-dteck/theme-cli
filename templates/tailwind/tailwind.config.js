@@ -1,3 +1,8 @@
+/**
+ * Tailwind configuration file.
+ * @info https://tailwindcss.com/docs/configuration
+ */
+
 const colors = require("tailwindcss/colors");
 
 module.exports = {

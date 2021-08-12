@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { findSection } from "../../helpers/helpers";
+import { findSection } from "@soltivo/theme-library";
 import { WebsiteContext } from "../../data/website.context";
 
 const Introduction = () => {

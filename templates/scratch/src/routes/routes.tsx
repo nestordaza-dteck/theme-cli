@@ -7,11 +7,9 @@ const Routes = () => {
   const { website } = useContext(WebsiteContext);
 
   return (
-    <div id="theme">
-      <Switch>
-        <Route exact path="/" component={Home} />
-      </Switch>
-    </div>
+    <Switch>
+      <Route exact path="/" component={Home} />
+    </Switch>
   );
 };
 

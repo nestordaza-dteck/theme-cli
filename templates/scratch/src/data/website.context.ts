@@ -1,11 +1,18 @@
 import { createContext } from "react";
-import global from "../../public/assets/data/global.website.json";
 
 /**
  * @description create global context to be used in the app.
  */
 export const WebsiteContext = createContext<{
-  website: WebsiteData;
+  website: WebsiteData | null;
 }>({
-  website: global,
-});
+  website: null,
+}) as React.Context<{
+  /**
+   * @description website data, it contains the data being displayed with
+   * page, sections, nav, footer etc...
+   * @important this attribute is null before useBuilder hook being
+   * dispatched.
+   */
+  website: WebsiteData;
+}>;
