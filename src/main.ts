@@ -189,13 +189,12 @@ export async function createProject(options: CLIOptions) {
     targetDirectory: options.targetDirectory || process.cwd(),
   };
 
-  // @ts-ignore
-  const currentFileUrl = import.meta.url;
   const templateDir = path.resolve(
-    new URL(currentFileUrl).pathname,
-    "../../templates",
+    __dirname,
+    "../templates",
     options.template.toLowerCase()
   );
+
   options.templateDirectory = templateDir;
 
   try {
