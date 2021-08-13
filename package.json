@@ -1,11 +1,10 @@
 {
   "name": "@soltivo/create-theme",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Create soltivo themes CLI",
   "author": "Soltivo Team",
   "main": "core/index.js",
   "bin": {
-    "@soltivo/create-soltivo-theme": "bin/create-project",
     "create-soltivo-theme": "bin/create-project",
     "scripts-theme": "bin/create-scripts"
   },
