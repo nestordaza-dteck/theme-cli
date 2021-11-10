@@ -14,7 +14,7 @@ export class RetrieveThemeData {
             // get all available sections from theme directory under:
             // ${projectDir}/src/sections/${sectionName}/${sectionName}.data.ts|js
             const sections = await getThemeSections({ assets, outputPath });
-            // create pages.data.json and retrive it.
+            // create pages.data.json and retrieve it.
             const pages = await createPagesData({
                 assets,
                 outputPath,

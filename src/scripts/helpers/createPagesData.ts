@@ -83,7 +83,7 @@ export async function createPagesData({
                 });
 
                 //delete js module after generate json file in public folder.
-                await fs.unlinkSync(path.resolve(outputPath, pagesModules[i].name));
+                fs.unlinkSync(path.resolve(outputPath, pagesModules[i].name));
             } else {
                 return Promise.reject("Data files should be an function.");
             }

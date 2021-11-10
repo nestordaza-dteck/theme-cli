@@ -8,117 +8,86 @@ import { pageLayer } from "../layers/page";
  * it will create empty data files from pageTemplate.
  */
 export async function getPageEntries({ pagesEntry }: { pagesEntry: string }) {
-  const pageEntries: { [index: string]: string } = await new Promise(
-    (resolve) => {
-      fs.access(pagesEntry, async (error) => {
-        if (error) {
-          await fs.mkdirSync(pagesEntry);
-        }
-        //response is an array of entry points with .data for webpack compiler.
-        let entries = [];
-        let folders = await fs.readdirSync(pagesEntry);
-        folders = folders.filter((folderName) =>
-          /^([a-zA-Z_])/i.test(folderName)
-        );
+    const pageEntries: { [index: string]: string } = await new Promise((resolve) => {
+        fs.access(pagesEntry, async (error) => {
+            if (error) fs.mkdirSync(pagesEntry);
+            //response is an array of entry points with .data for webpack compiler.
+            let entries = [];
+            let folders = fs.readdirSync(pagesEntry);
+            folders = folders.filter((folderName) => /^([a-zA-Z_])/i.test(folderName));
 
-        for (let i = 0; i < folders.length; i++) {
-          const folderDir = path.join(pagesEntry, folders[i]);
-          const folderFiles = await fs.readdirSync(folderDir);
+            for (let i = 0; i < folders.length; i++) {
+                const folderDir = path.join(pagesEntry, folders[i]);
+                const folderFiles = fs.readdirSync(folderDir);
 
-          //try to find .data file
-          let dataFileName = folderFiles.find((file) =>
-            /([a-zA-Z_]+)\.data\.(js|ts)/i.test(file)
-          );
+                //try to find .data file
+                let dataFileName = folderFiles.find((file) => /([a-zA-Z_]+)\.data\.(js|ts)/i.test(file));
 
-          //page has no ${pageName}.data.(js|ts) file create a new one
-          //based on folder name.
-          if (!dataFileName) {
-            dataFileName = `${folders[i]}.data.ts`;
-            await fs.writeFileSync(
-              path.join(folderDir, dataFileName),
-              pageLayer
-            );
-          }
-          //new entry to array.
-          entries.push(path.join(folderDir, dataFileName));
-        }
+                //page has no ${pageName}.data.(js|ts) file create a new one
+                //based on folder name.
+                if (!dataFileName) {
+                    dataFileName = `${folders[i]}.data.ts`;
+                    fs.writeFileSync(path.join(folderDir, dataFileName), pageLayer);
+                }
+                //new entry to array.
+                entries.push(path.join(folderDir, dataFileName));
+            }
 
-        //generate object for entry points webpack.
-        const res = entries.map((entry) => {
-          // the reason we have _page here it's to filter by name all pages chunks
-          // inside plugin
-          return [
-            `_page.${path.basename(entry).replace(/(.js|.ts)/i, "")}`,
-            entry,
-          ];
+            //generate object for entry points webpack.
+            const res = entries.map((entry) => {
+                // the reason we have _page here it's to filter by name all pages chunks
+                // inside plugin
+                return [`_page.${path.basename(entry).replace(/(.js|.ts)/i, "")}`, entry];
+            });
+
+            resolve(Object.fromEntries(res));
         });
+    });
 
-        resolve(Object.fromEntries(res));
-      });
-    }
-  );
-
-  return pageEntries;
+    return pageEntries;
 }
 
 /**
  * @description get array of sections entry points from src/sections directory, if data files not found
  * it will create empty data files from sectionTemplate.
  */
-export async function getSectionEntries({
-  sectionsEntry,
-}: {
-  sectionsEntry: string;
-}) {
-  const sectionEntries: { [index: string]: string } = await new Promise(
-    (resolve) => {
-      fs.access(sectionsEntry, async (error) => {
-        if (error) {
-          await fs.mkdirSync(sectionsEntry);
-        }
-        //response is an array of entry points with .data for webpack compiler.
-        let entries = [];
-        let folders = await fs.readdirSync(sectionsEntry);
-        folders = folders.filter((folderName) =>
-          /^([a-zA-Z_])/i.test(folderName)
-        );
+export async function getSectionEntries({ sectionsEntry }: { sectionsEntry: string }) {
+    const sectionEntries: { [index: string]: string } = await new Promise((resolve) => {
+        fs.access(sectionsEntry, async (error) => {
+            if (error) fs.mkdirSync(sectionsEntry);
 
-        for (let i = 0; i < folders.length; i++) {
-          const folderDir = path.join(sectionsEntry, folders[i]);
-          const folderFiles = await fs.readdirSync(folderDir);
+            //response is an array of entry points with .data for webpack compiler.
+            let entries = [];
+            let folders = fs.readdirSync(sectionsEntry);
+            folders = folders.filter((folderName) => /^([a-zA-Z_])/i.test(folderName));
 
-          //try to find .data file
-          let dataFileName = folderFiles.find((file) =>
-            /([a-zA-Z_]+)\.data\.(js|ts)/i.test(file)
-          );
+            for (let i = 0; i < folders.length; i++) {
+                const folderDir = path.join(sectionsEntry, folders[i]);
+                const folderFiles = await fs.readdirSync(folderDir);
 
-          //section has no ${sectionName}.data.(js|ts) file create a new one
-          //based on folder name.
-          if (!dataFileName) {
-            dataFileName = `${folders[i]}.data.ts`;
-            await fs.writeFileSync(
-              path.join(folderDir, dataFileName),
-              sectionLayer
-            );
-          }
-          //new entry to array.
-          entries.push(path.join(folderDir, dataFileName));
-        }
+                //try to find .data file
+                let dataFileName = folderFiles.find((file) => /([a-zA-Z_]+)\.data\.(js|ts)/i.test(file));
 
-        //generate object for entry points webpack.
-        const res = entries.map((entry) => {
-          // the reason we have _section here it's to filter by name all sections chunks
-          // inside plugin
-          return [
-            `_section.${path.basename(entry).replace(/(.js|.ts)/i, "")}`,
-            entry,
-          ];
+                //section has no ${sectionName}.data.(js|ts) file create a new one
+                //based on folder name.
+                if (!dataFileName) {
+                    dataFileName = `${folders[i]}.data.ts`;
+                    fs.writeFileSync(path.join(folderDir, dataFileName), sectionLayer);
+                }
+                //new entry to array.
+                entries.push(path.join(folderDir, dataFileName));
+            }
+
+            //generate object for entry points webpack.
+            const res = entries.map((entry) => {
+                // the reason we have _section here it's to filter by name all sections chunks
+                // inside plugin
+                return [`_section.${path.basename(entry).replace(/(.js|.ts)/i, "")}`, entry];
+            });
+
+            resolve(Object.fromEntries(res));
         });
+    });
 
-        resolve(Object.fromEntries(res));
-      });
-    }
-  );
-
-  return sectionEntries;
+    return sectionEntries;
 }

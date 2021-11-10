@@ -26,22 +26,18 @@ const config = async (): Promise<webpack.Configuration> => {
     const sectionsEntry = path.join(APP_SOURCE, "sections");
 
     //if Global data directory is not created, create it with global template.
-    fs.access(globalEntry, async (error) => {
+    fs.access(globalEntry, (error) => {
         if (error) {
-            await fs.mkdirSync(globalEntry);
-            await fs.writeFileSync(path.join(globalEntry, "global.data.ts"), globalLayer);
+            fs.mkdirSync(globalEntry);
+            fs.writeFileSync(path.join(globalEntry, "global.data.ts"), globalLayer);
         }
     });
 
     //creates entries for build modules ${section}.data.ts|js
-    const sectionEntries = await getSectionEntries({
-        sectionsEntry,
-    });
+    const sectionEntries = await getSectionEntries({ sectionsEntry });
 
     //creates entries for build modules ${page}.data.ts|js
-    const pageEntries = await getPageEntries({
-        pagesEntry,
-    });
+    const pageEntries = await getPageEntries({ pagesEntry });
 
     return await new Promise((resolve) => {
         resolve({
