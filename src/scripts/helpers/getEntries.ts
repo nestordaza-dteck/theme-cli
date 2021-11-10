@@ -63,7 +63,7 @@ export async function getSectionEntries({ sectionsEntry }: { sectionsEntry: stri
 
             for (let i = 0; i < folders.length; i++) {
                 const folderDir = path.join(sectionsEntry, folders[i]);
-                const folderFiles = await fs.readdirSync(folderDir);
+                const folderFiles = fs.readdirSync(folderDir);
 
                 //try to find .data file
                 let dataFileName = folderFiles.find((file) => /([a-zA-Z_]+)\.data\.(js|ts)/i.test(file));
