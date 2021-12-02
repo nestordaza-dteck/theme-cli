@@ -5,8 +5,7 @@
     "author": "Soltivo Team",
     "main": "core/index.js",
     "bin": {
-        "create-soltivo-theme": "bin/create-project",
-        "scripts-theme": "bin/create-scripts"
+        "create-soltivo-theme": "bin/create-theme"
     },
     "publishConfig": {
         "access": "public"
