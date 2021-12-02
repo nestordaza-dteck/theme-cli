@@ -1,5 +1,5 @@
 {
-    "name": "@soltivo/create-theme",
+    "name": "@soltivo/theme-cli",
     "version": "1.0.6",
     "description": "Create soltivo themes CLI",
     "author": "Soltivo Team",
